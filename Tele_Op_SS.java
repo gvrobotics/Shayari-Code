@@ -1,137 +1,89 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class Tele_Op_SS extends OpMode {
-    // Two motors for back wheel drive
-    // One motor for intake rod and one outtake motor for intake slides
-    public DcMotor BR, BL, Intake, Outtake;
-
-    // Servo for bucket:
-    public Servo BUCKET;
-
-    // Wheel power:
-    private double power_BR, power_BL;
+public class TeleOp_Test extends OpMode {
+    public DcMotor FR, FL, BR, BL;
+    private double powerRY, powerRX, powerLX, powerLY;
 
 
     @Override
     public void init() {
-        // Set hardware maps for all DC motors:
+
+        FR = hardwareMap.get(DcMotor.class, "FR");
+        FL = hardwareMap.get(DcMotor.class, "FL");
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
-        BUCKET = hardwareMap.get(Servo.class, "BUCKET");
 
-        // Set all known directions for all DC motors:
+
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.FORWARD);
-        Intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // Need to test Outtake direction--currently Forward!
-        Outtake.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        // Notes to self: counterclockwise (intake)-> positive, clockwise (outtake)-> negative
-
-        // Set all motors' power to 0 and servo position to 0:
+        FR.setPower(0);
+        FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-        Intake.setPower(0);
-        Outtake.setPower(0);
-        BUCKET.setPosition(0);
     }
 
     @Override
-    public void loop() {
+        public void loop() {
+        powerLX = gamepad1.left_stick_x;
+        powerLY = gamepad1.left_stick_y;
+        powerRX = gamepad1.right_stick_x;
+        powerRY = gamepad1.right_stick_y;
 
-        // Drivetrain:
-
-        // Back wheels powers:
-        power_BR = gamepad1.right_stick_y;
-        power_BL = gamepad1.left_stick_y;
-
-
-        // Setting dead-zone:
-        if (power_BR < -0.2 || power_BR > 0.2)
-        {
-            BR.setPower(power_BR);
+        if (powerRY < -0.3 || powerRY > 0.3) {
+            FR.setPower(powerRY);
+            BR.setPower(powerRY);
+            FL.setPower(powerRY);
+            BL.setPower(powerRY);
+        } else {
+            FR.setPower(0);
+            BR.setPower(0);
+            FL.setPower(0);
+            BL.setPower(0);
         }
 
-        if (power_BL < -0.2 || power_BL > 0.2)
-        {
-            BL.setPower(power_BL);
+        if (powerRX > 0.3 || powerRX < -0.3) {
+            FR.setPower(powerRX);
+            BR.setPower(powerRX);
+            FL.setPower(powerRX);
+            BL.setPower(powerRX);
+        } else {
+            FL.setPower(0);
+            BL.setPower(0);
+            FL.setPower(0);
+            BL.setPower(0);
         }
 
-        // Intake:
-        double i_power = 0.2;
-        if (gamepad1.right_bumper && gamepad1.left_bumper){
+        if (powerLY < -0.3 || powerLY > 0.3) {
+            FR.setPower(powerLY);
+            BR.setPower(powerLY);
+            FL.setPower(powerLY);
+            BL.setPower(powerLY);
+        } else {
+            FR.setPower(0);
+            BR.setPower(0);
+            FL.setPower(0);
+            BL.setPower(0);
 
-            Intake.setPower(i_power);
-
+            if (powerLX > 0.3 || powerLX < -0.3) {
+                FR.setPower(powerLX);
+                BR.setPower(powerLX);
+                FL.setPower(powerLX);
+                BL.setPower(powerLX);
+            } else {
+                FL.setPower(0);
+                BL.setPower(0);
+                FL.setPower(0);
+                BL.setPower(0);
+            }
         }
-        else{
-            Intake.setPower(0);
-        }
-
-        // Outtake:
-        // slide
-        double o_power = 1;
-        // Make slide go up:
-        if (gamepad1.right_trigger < -0.1 || gamepad1.right_trigger > 0.1){
-
-            Outtake.setPower(o_power);
-
-        }
-        else{
-            Outtake.setPower(0);
-        }
-
-        // Make slide go down:
-        if (gamepad1.left_trigger < -0.1 || gamepad1.right_trigger > 0.1){
-            Outtake.setPower(-o_power);
-        }
-        else{
-            Outtake.setPower(0);
-        }
-
-        // Servo code:
-        if (gamepad1.a){
-            BUCKET.setPosition(1);
-        }
-        else{
-            BUCKET.setPosition(0);
-        }
-
-        if (gamepad1.b){
-            BUCKET.setPosition(0.5);
-        }
-        else{
-            BUCKET.setPosition(0);
-        }
-
-        if (gamepad1.x){
-            BUCKET.setPosition(-0.5);
-        }
-        else{
-            BUCKET.setPosition(0);
-        }
-
-        if (gamepad1.y){
-            BUCKET.setPosition(-1);
-        }
-        else{
-            BUCKET.setPosition(0);
-        }
-
     }
-
-
-
-
-
-
 }
-
