@@ -77,9 +77,10 @@ public class AutonRight extends LinearOpMode
         int y = 2;
         int z = 3;
 
-        final double MOTOR_POWER = 0.1;
-        final double LINEAR_POWER = 0.25;
+        final double MOTOR_POWER_RL = 0.25; // speed for motor turning right/left
+        final double MOTOR_POWER_FB = 0.4; // speed for motor going forward/backward
 
+        final double LINEAR_POWER = 0.25; // speed for linear slides
 
         // parking
         if (color.blue()-100 < color.red() && color.blue()+100 > color.red())
@@ -90,38 +91,38 @@ public class AutonRight extends LinearOpMode
 
             // CONE SEQUENCE
 
-            forward(26, MOTOR_POWER); // 2 tile lengths - 21 = 26
-            left(90, MOTOR_POWER);
-            forward(8.75, MOTOR_POWER); // 1/2 tile length - 3 (junction radius) = 35/4
+            forward(26, MOTOR_POWER_FB); // 2 tile lengths - 21 = 26
+            left(90, MOTOR_POWER_RL);
+            forward(8.75, MOTOR_POWER_FB); // 1/2 tile length - 3 (junction radius) = 35/4
 
             // 12 inches up so far
             // lower preloaded cone on MEDIUM junction
             linearup(11.5, LINEAR_POWER);
             lineardown(11.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, MOTOR_POWER);
-            forward(44, MOTOR_POWER); // 2 tile lengths - low junction base radius
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(44, MOTOR_POWER_FB); // 2 tile lengths - low junction base radius
 
             // pick up 2nd cone from stacks
             linearup(22, LINEAR_POWER);
             lineardown(10.5, LINEAR_POWER);
 
-            right(90, LINEAR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, LINEAR_POWER);
-            forward(20.5, MOTOR_POWER); // 1 tile length - radius of ground junction =
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(20.5, MOTOR_POWER_FB); // 1 tile length - radius of ground junction =
 
             // lower 2nd cone one LOW junction
             linearup(24, 0.5);
 
             // PARKING FOR RED
-            backward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, LINEAR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            left(90, LINEAR_POWER);
-            forward(35.23, MOTOR_POWER); // 1 1/2 tile length
+            backward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            left(90, MOTOR_POWER_RL);
+            forward(35.23, MOTOR_POWER_FB); // 1 1/2 tile length
 
 
             lineardown(12,0.5);
@@ -137,39 +138,39 @@ public class AutonRight extends LinearOpMode
 
             // CONE SEQUENCE
 
-            forward(26, MOTOR_POWER); // 2 tile lengths - 21 = 26
-            left(90, MOTOR_POWER);
-            forward(8.75, MOTOR_POWER); // 1/2 tile length - 3 (junction radius) = 35/4
+            forward(26, MOTOR_POWER_FB); // 2 tile lengths - 21 = 26
+            left(90, MOTOR_POWER_RL);
+            forward(8.75, MOTOR_POWER_FB); // 1/2 tile length - 3 (junction radius) = 35/4
 
             // 12 inches up so far
             // lower preloaded cone on MEDIUM junction
             linearup(11.5, LINEAR_POWER);
             lineardown(11.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, MOTOR_POWER);
-            forward(44, MOTOR_POWER); // 2 tile lengths - low junction base radius
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(44, MOTOR_POWER_FB); // 2 tile lengths - low junction base radius
 
             // pick up 2nd cone from stacks
             linearup(22, LINEAR_POWER);
             lineardown(10.5, LINEAR_POWER);
 
-            right(90, LINEAR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, LINEAR_POWER);
-            forward(20.5, MOTOR_POWER); // 1 tile length - radius of ground junction =
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(20.5, MOTOR_POWER_FB); // 1 tile length - radius of ground junction =
 
             // lower 2nd cone one LOW junction
             linearup(24, 0.5);
 
 
             // PARKING FOR GREEN
-            backward(11.75, MOTOR_POWER); // 1/2 tile length
-            left(90, LINEAR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, LINEAR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
+            backward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            left(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
 
 
         } else if(color.blue() > color.green())
@@ -180,35 +181,35 @@ public class AutonRight extends LinearOpMode
 
             // CONE SEQUENCE
 
-            forward(26, MOTOR_POWER); // 2 tile lengths - 21 = 26
-            left(90, MOTOR_POWER);
-            forward(8.75, MOTOR_POWER); // 1/2 tile length - 3 (junction radius) = 35/4
+            forward(26, MOTOR_POWER_FB); // 2 tile lengths - 21 = 26
+            left(90, MOTOR_POWER_RL);
+            forward(8.75, MOTOR_POWER_FB); // 1/2 tile length - 3 (junction radius) = 35/4
 
             // 12 inches up so far
             // lower preloaded cone on MEDIUM junction
             linearup(11.5, LINEAR_POWER);
             lineardown(11.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, MOTOR_POWER);
-            forward(44, MOTOR_POWER); // 2 tile lengths - low junction base radius
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(44, MOTOR_POWER_FB); // 2 tile lengths - low junction base radius
 
             // pick up 2nd cone from stacks
             linearup(22, LINEAR_POWER);
             lineardown(10.5, LINEAR_POWER);
 
-            right(90, LINEAR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, LINEAR_POWER);
-            forward(20.5, MOTOR_POWER); // 1 tile length - radius of ground junction =
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(20.5, MOTOR_POWER_FB); // 1 tile length - radius of ground junction =
 
             // lower 2nd cone one LOW junction
             linearup(24, 0.5);
 
 
             // PARKING FOR BLUE
-            backward(11.75, MOTOR_POWER); // 1/2 tile length
+            backward(11.75, MOTOR_POWER_FB); // 1/2 tile length
 
 
         }
