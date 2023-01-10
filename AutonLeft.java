@@ -77,8 +77,10 @@ public class AutonLeft extends LinearOpMode
         int y = 2;
         int z = 3;
 
-        final double MOTOR_POWER = 0.1;
-        final double LINEAR_POWER = 0.25;
+        final double MOTOR_POWER_RL = 0.25; // speed for motor turning right/left
+        final double MOTOR_POWER_FB = 0.4; // speed for motor going forward/backward
+
+        final double LINEAR_POWER = 0.25; // speed for linear slides
 
         // parking
         if (color.blue()-100 < color.red() && color.blue()+100 > color.red())
@@ -90,38 +92,38 @@ public class AutonLeft extends LinearOpMode
 
             // CONE SEQUENCE
 
-            forward(26, MOTOR_POWER); // 2 tile length - 21
-            left(90, MOTOR_POWER);
-            forward(8.75, MOTOR_POWER); // half tile length - medium junction base radius
+            forward(26, MOTOR_POWER_FB); // 2 tile length - 21
+            left(90, MOTOR_POWER_RL);
+            forward(8.75, MOTOR_POWER_FB); // half tile length - medium junction base radius
 
             // lower cone on medium junction
             lineardown(11.5, LINEAR_POWER);
             linearup(11.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // half tile length
-            right(90, MOTOR_POWER);
-            forward(47, MOTOR_POWER); // around 2 tile lengths
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // half tile length
+            right(90, MOTOR_POWER_RL);
+            forward(47, MOTOR_POWER_FB); // around 2 tile lengths
 
             // pick up cone from stacks
             lineardown(22, LINEAR_POWER);
             linearup(10.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // half tile length
-            right(90, MOTOR_POWER);
-            forward(23.5, MOTOR_POWER); // one tile length
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // half tile length
+            right(90, MOTOR_POWER_RL);
+            forward(23.5, MOTOR_POWER_FB); // one tile length
 
             // lower cone on low junction
             linearup(3.5, LINEAR_POWER);
             lineardown(3.5 ,LINEAR_POWER);
 
             // PARKING FOR RED
-            backward(11.75, MOTOR_POWER); // 1/2 tile length
-            left(90, LINEAR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, LINEAR_POWER);
-            forward(58.75, MOTOR_POWER); // 2 1/2 tile length
+            backward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            left(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(58.75, MOTOR_POWER_FB); // 2 1/2 tile length
 
             lineardown(12,0.5);
 
@@ -134,38 +136,38 @@ public class AutonLeft extends LinearOpMode
 
             // CONE SEQUENCE
 
-            forward(26, MOTOR_POWER); // 2 tile length - 21
-            left(90, MOTOR_POWER);
-            forward(8.75, MOTOR_POWER); // half tile length - medium junction base radius
+            forward(26, MOTOR_POWER_FB); // 2 tile length - 21
+            left(90, MOTOR_POWER_RL);
+            forward(8.75, MOTOR_POWER_FB); // half tile length - medium junction base radius
 
             // lower cone on medium junction
             lineardown(11.5, LINEAR_POWER);
             linearup(11.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // half tile length
-            right(90, MOTOR_POWER);
-            forward(47, MOTOR_POWER); // around 2 tile lengths
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // half tile length
+            right(90, MOTOR_POWER_RL);
+            forward(47, MOTOR_POWER_FB); // around 2 tile lengths
 
             // pick up cone from stacks
             lineardown(22, LINEAR_POWER);
             linearup(10.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // half tile length
-            right(90, MOTOR_POWER);
-            forward(23.5, MOTOR_POWER); // one tile length
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // half tile length
+            right(90, MOTOR_POWER_RL);
+            forward(23.5, MOTOR_POWER_FB); // one tile length
 
             // lower cone on low junction
             linearup(3.5, LINEAR_POWER);
             lineardown(3.5 ,LINEAR_POWER);
 
             // PARKING FOR GREEN
-            backward(11.75, MOTOR_POWER); // 1/2 tile length
-            left(90, LINEAR_POWER);
-            forward(11.75, MOTOR_POWER); // 1/2 tile length
-            right(90, LINEAR_POWER);
-            forward(23.5, MOTOR_POWER); // 1 tile length
+            backward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            left(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
+            right(90, MOTOR_POWER_RL);
+            forward(23.5, MOTOR_POWER_FB); // 1 tile length
 
             lineardown(12,0.5);
 
@@ -180,34 +182,34 @@ public class AutonLeft extends LinearOpMode
 
             // CONE SEQUENCE
 
-            forward(26, MOTOR_POWER); // 2 tile length - 21
-            left(90, MOTOR_POWER);
-            forward(8.75, MOTOR_POWER); // half tile length - medium junction base radius
+            forward(26, MOTOR_POWER_FB); // 2 tile length - 21
+            left(90, MOTOR_POWER_RL);
+            forward(8.75, MOTOR_POWER_FB); // half tile length - medium junction base radius
 
             // lower cone on medium junction
             lineardown(11.5, LINEAR_POWER);
             linearup(11.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // half tile length
-            right(90, MOTOR_POWER);
-            forward(47, MOTOR_POWER); // around 2 tile lengths
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // half tile length
+            right(90, MOTOR_POWER_RL);
+            forward(47, MOTOR_POWER_FB); // around 2 tile lengths
 
             // pick up cone from stacks
             lineardown(22, LINEAR_POWER);
             linearup(10.5, LINEAR_POWER);
 
-            right(90, MOTOR_POWER);
-            forward(11.75, MOTOR_POWER); // half tile length
-            right(90, MOTOR_POWER);
-            forward(23.5, MOTOR_POWER); // one tile length
+            right(90, MOTOR_POWER_RL);
+            forward(11.75, MOTOR_POWER_FB); // half tile length
+            right(90, MOTOR_POWER_RL);
+            forward(23.5, MOTOR_POWER_FB); // one tile length
 
             // lower cone on low junction
             linearup(3.5, LINEAR_POWER);
             lineardown(3.5 ,LINEAR_POWER);
 
             // PARKING FOR BLUE
-            backward(11.75, MOTOR_POWER); // 1/2 tile length
+            backward(11.75, MOTOR_POWER_FB); // 1/2 tile length
 
             lineardown(12,0.5);
 
