@@ -56,7 +56,8 @@ public class BlazinSarkar extends OpMode {
         if (powerLY > 0.07 || powerLY < -0.07) {
             FL.setPower(powerLY);
             BL.setPower(powerLY);
-        } else {
+        }
+        else {
             FL.setPower(0);
             BL.setPower(0);
         }
@@ -64,30 +65,33 @@ public class BlazinSarkar extends OpMode {
         if (powerRY > 0.07 || powerRY < -0.07) {
             FR.setPower(powerRY);
             BR.setPower(powerRY);
-        } else {
+        }
+        else {
             FR.setPower(0);
             BR.setPower(0);
-
-            if (gamepad2.dpad_up) {
-                linear.setPower(0.5);
-            } else {
-                linear.setPower(0);
-
-                if (gamepad2.dpad_down) {
-                    linear.setPower(-0.5);
-                } else {
-                    linear.setPower(0);
-
-                }
-
-                if (gamepad2.a) {
-                    claw.setPosition(0.45);
-                } else if (gamepad2.y) {
-                    claw.setPosition(0);
-
-                }
-            }
         }
+
+        if (gamepad2.dpad_up) {
+            linear.setPower(0.5);
+        }
+        else {
+            linear.setPower(0);
+        }
+
+        if (gamepad2.dpad_down) {
+            linear.setPower(-0.5);
+        }
+        else {
+            linear.setPower(0);
+        }
+
+        if (gamepad2.a) {
+            claw.setPosition(0.45);
+        }
+        else if (gamepad2.y) {
+            claw.setPosition(0);
+        }
+
         if (gamepad1.left_trigger>0) {
             BR.setPower(gamepad1.left_trigger);
             BL.setPower(-gamepad1.left_trigger);
