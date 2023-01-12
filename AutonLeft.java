@@ -21,7 +21,7 @@ public class AutonLeft extends LinearOpMode
     double cpi = 7.5;
 
     //clicks per inch for linear slides since different diameter than wheels and different motor
-    double lcpi = 114;
+    double lcpi = 195;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -38,7 +38,7 @@ public class AutonLeft extends LinearOpMode
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        linear.setDirection(DcMotorSimple.Direction.REVERSE);
+        linear.setDirection(DcMotorSimple.Direction.FORWARD);
 
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -68,7 +68,8 @@ public class AutonLeft extends LinearOpMode
         claw.setPosition(0);
 
         waitForStart();
-
+        
+        claw.setPosition(0.45);
         linearup(12,0.6);
         sleep(1000);
         forward(21,0.1);
@@ -459,7 +460,6 @@ public class AutonLeft extends LinearOpMode
 
 
 }
-
 
 
 
