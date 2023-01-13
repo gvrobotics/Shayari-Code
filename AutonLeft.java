@@ -68,8 +68,10 @@ public class AutonLeft extends LinearOpMode
         claw.setPosition(0);
 
         waitForStart();
-        
+
+        // claw closes around cone
         claw.setPosition(0.45);
+
         linearup(12,0.6);
         sleep(1000);
         forward(21,0.1);
@@ -78,8 +80,9 @@ public class AutonLeft extends LinearOpMode
         int y = 2;
         int z = 3;
 
-        final double MOTOR_POWER_RL = 0.25; // speed for motor turning right/left
-        final double MOTOR_POWER_FB = 0.4; // speed for motor going forward/backward
+        // Turning Left or Right power from 0.25 to 0.15
+        final double MOTOR_POWER_RL = 0.15; // speed for motor turning right/left
+        final double MOTOR_POWER_FB = 0.40; // speed for motor going forward/backward
 
         final double LINEAR_POWER = 0.25; // speed for linear slides
 
@@ -92,40 +95,60 @@ public class AutonLeft extends LinearOpMode
             telemetry.update();
 
             // CONE SEQUENCE
+            // NOTE TO SELF: TEST EACH STEP INDIVIDUALLY
 
-            forward(26, MOTOR_POWER_FB); // 2 tile length - 21
+            // STEP 1: HIGH JUNCTION
+            forward(10, MOTOR_POWER_FB); // almost half tile length
+            right(90, MOTOR_POWER_RL);
+            forward(10, MOTOR_POWER_FB); // almost half tile length
             left(90, MOTOR_POWER_RL);
-            forward(8.75, MOTOR_POWER_FB); // half tile length - medium junction base radius
+            forward(37, MOTOR_POWER_FB); // exit that tile
+            linearup(21.5, LINEAR_POWER); // raise to high junction
+            claw.setPosition(0.5); // claw opens and releases cone
+            claw.setPosition(0.45); // closes claw
 
-            // lower cone on medium junction
-            lineardown(11.5, LINEAR_POWER);
-            linearup(11.5, LINEAR_POWER);
-
+            // STEP 2: HIGH JUNCTION (SOUTHWEST OF FIRST CONE)
+            left(90, MOTOR_POWER_RL);
+            forward(25, MOTOR_POWER_FB); // go to cone stacks
+            lineardown(10.5, LINEAR_POWER);
+            claw.setPosition(0.5); // opens claw
+            claw.setPosition(0.45); // closes claw
             right(90, MOTOR_POWER_RL);
-            forward(11.75, MOTOR_POWER_FB); // half tile length
+            forward(10, MOTOR_POWER_FB);
             right(90, MOTOR_POWER_RL);
-            forward(47, MOTOR_POWER_FB); // around 2 tile lengths
-
-            // pick up cone from stacks
-            lineardown(22, LINEAR_POWER);
-            linearup(10.5, LINEAR_POWER);
-
+            forward(43, MOTOR_POWER_FB); // almost 2 tile-lengths
+            left(90, MOTOR_POWER_RL);
+            forward(10, MOTOR_POWER_FB); // around half tile
             right(90, MOTOR_POWER_RL);
-            forward(11.75, MOTOR_POWER_FB); // half tile length
+            forward(10, MOTOR_POWER_FB); // half-tile length
+            linearup(10.5, LINEAR_POWER); // raise to high junction
+            claw.setPosition(0.5); // claw opens and releases cone
+            claw.setPosition(0.45); // closes claw
+
+
+            // STEP 3: HIGH JUNCTION (SOUTHEAST OF SECOND CONE)
+            // back up
+            backward(10, MOTOR_POWER_FB);
             right(90, MOTOR_POWER_RL);
-            forward(23.5, MOTOR_POWER_FB); // one tile length
-
-            // lower cone on low junction
-            linearup(3.5, LINEAR_POWER);
-            lineardown(3.5 ,LINEAR_POWER);
-
+            forward(33.5, MOTOR_POWER_FB); // exit tiles so you are in same row as stacks
+            left(90, MOTOR_POWER_RL);
+            forward(35, MOTOR_POWER_FB);
+            lineardown(10.5, LINEAR_POWER);
+            claw.setPosition(0.5); // opens claw
+            claw.setPosition(0.45); // closes claw
+            left(90, MOTOR_POWER_RL);
+            forward(10, MOTOR_POWER_FB);
+            left(90, MOTOR_POWER_RL);
+            forward(33.5, MOTOR_POWER_FB); // around one and half tile lengths
+            linearup(10.5, LINEAR_POWER); // raise to high junction
+            claw.setPosition(0.5); // claw opens and releases cone
+            claw.setPosition(0.45); // closes claw
+            
             // PARKING FOR RED
-            backward(11.75, MOTOR_POWER_FB); // 1/2 tile length
-            left(90, MOTOR_POWER_RL);
-            forward(11.75, MOTOR_POWER_FB); // 1/2 tile length
             right(90, MOTOR_POWER_RL);
-            forward(58.75, MOTOR_POWER_FB); // 2 1/2 tile length
-
+            forward(12, MOTOR_POWER_FB); // go above half tile so you don't crash into cone on turn
+            right(90, MOTOR_POWER_RL);
+            forward(70, MOTOR_POWER_FB); // almost 3 tiles
             lineardown(12,0.5);
 
 
@@ -460,7 +483,6 @@ public class AutonLeft extends LinearOpMode
 
 
 }
-
 
 
 
