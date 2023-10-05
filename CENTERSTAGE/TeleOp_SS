@@ -12,103 +12,128 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 /* class must match name of file*/
 public class TeleOp_SS extends OpMode {
 
-   public DcMotor FR, FL, BR, BL;
-   /* easier to adjust if you just set it as a variable*/
-   private double seconds = 0.2;
+    public DcMotor FR, FL, BR, BL;
+    /* easier to adjust if you just set it as a variable*/
+    private double seconds = 0.2;
 
-   @Override
-   /* basic set up code
-   (this may be adjusted once we start testing so make sure you understand it)*/
-   public void init() {
-       // "FR" is what you have to type into the phone
+    @Override
+    /* basic set up code
+    (this may be adjusted once we start testing so make sure you understand it)*/
+    public void init() {
+        // "FR" is what you have to type into the phone
 
-       FR = hardwareMap.get(DcMotor.class, "FR");
-       FL = hardwareMap.get(DcMotor.class, "FL");
-       BR = hardwareMap.get(DcMotor.class, "BR");
-       BL = hardwareMap.get(DcMotor.class, "BL");
+        FR = hardwareMap.get(DcMotor.class, "FR");
+        FL = hardwareMap.get(DcMotor.class, "FL");
+        BR = hardwareMap.get(DcMotor.class, "BR");
+        BL = hardwareMap.get(DcMotor.class, "BL");
 
-       FR.setDirection(DcMotorSimple.Direction.FORWARD);
-       FL.setDirection(DcMotorSimple.Direction.REVERSE);
-       BR.setDirection(DcMotorSimple.Direction.FORWARD);
-       BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
 
-       /* max power is 1*/
-       /* going up on joystick makes the value negative */
-       FR.setPower(0);
-       FL.setPower(0);
-       BR.setPower(0);
-       BL.setPower(0);
-   }
+        /* max power is 1*/
+        /* going up on joystick makes the value negative */
+        FR.setPower(0);
+        FL.setPower(0);
+        BR.setPower(0);
+        BL.setPower(0);
+    }
 
-   @Override
-   public void loop() {
+    @Override
+    public void loop() {
 
-       /*adjust time based on human error,
-       the variable seconds represents how long the stick is held down*/
+        /*adjust time based on human error,
+        the variable seconds represents how long the stick is held down*/
 
-       /* y movement without turning direction */
-       if(Math.abs(gamepad1.left_stick_y) >= seconds && Math.abs(gamepad1.left_stick_x) <= seconds) {
-           FL.setPower(gamepad1.left_stick_y);
-           BL.setPower(gamepad1.left_stick_y);
-           FR.setPower(gamepad1.right_stick_y);
-           BR.setPower(gamepad1.right_stick_y);
-       }
+        /* FORWARDS */
+        if(Math.abs(gamepad1.left_stick_y) >= seconds && Math.abs(gamepad1.left_stick_x) <= seconds) {
+            FL.setPower(gamepad1.left_stick_y);
+            BL.setPower(gamepad1.left_stick_y);
+            FR.setPower(gamepad1.right_stick_y);
+            BR.setPower(gamepad1.right_stick_y);
+        }
 
-       /* x movement without turning direction */
-       else if(Math.abs(gamepad1.left_stick_y) <= seconds && Math.abs(gamepad1.left_stick_x) >= seconds) {
-           FL.setPower(-gamepad1.left_stick_x);
-           BL.setPower(gamepad1.left_stick_x);
-           FR.setPower(-gamepad1.left_stick_x);
-           BR.setPower(gamepad1.left_stick_x);
-       }
+        /* BACKWARDS */
+        if(Math.abs(gamepad1.left_stick_y) >= seconds && Math.abs(gamepad1.left_stick_x) <= seconds) {
+            FL.setPower(-gamepad1.left_stick_y);
+            BL.setPower(-gamepad1.left_stick_y);
+            FR.setPower(-gamepad1.right_stick_y);
+            BR.setPower(-gamepad1.right_stick_y);
+        }
 
-       /* DIAGONAL */
+        /* STRAFE RIGHT: right motors must push in on each other so FR is backward and BR is forward */
+        else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
+            FR.setPower(-gamepad1.left_stick_x);
+            BL.setPower(gamepad1.left_stick_x);
+            FL.setPower(gamepad1.left_stick_x);
+            BR.setPower(-gamepad1.left_stick_x);
+        }
 
-       /* right UP/right DOWN, FL, BR*/
-       else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
-           FL.setPower(gamepad1.left_stick_y);
-           BL.setPower(0);
-           FR.setPower(0);
-           BR.setPower(gamepad1.left_stick_y);
-       }
+        /* STRAFE LEFT: left motors must push in on each other so FL is backward and BL is forward */
+        else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
+            FL.setPower(gamepad1.left_stick_x);
+            BL.setPower(-gamepad1.left_stick_x);
+            FR.setPower(gamepad1.left_stick_x);
+            BR.setPower(-gamepad1.left_stick_x);
+        }
 
-       /* left UP/right DOWN, FR, BL */
-       else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
-           FL.setPower(0);
-           BL.setPower(gamepad1.left_stick_y);
-           FR.setPower(gamepad1.left_stick_y);
-           BR.setPower(0);
-       }
+        /* STRAFE RIGHT UP */
+        else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
+            FR.setPower(0);
+            BL.setPower(0);
+            FL.setPower(gamepad1.left_stick_x);
+            BR.setPower(gamepad1.left_stick_x);
+        }
 
-       /* STRAFING */
+        /* STRAFE RIGHT DOWN */
+        else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
+            FR.setPower(0);
+            BL.setPower(0);
+            FL.setPower(-gamepad1.left_stick_x);
+            BR.setPower(-gamepad1.left_stick_x);
+        }
 
-       /* right, right motors must push in on each other so FR is backward and BR is forward */
-       else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
-           FR.setPower(-gamepad1.left_stick_x);
-           BL.setPower(gamepad1.left_stick_x);
-           FL.setPower(gamepad1.left_stick_x);
-           BR.setPower(-gamepad1.left_stick_x);
-       }
+        /* STRAFE LEFT UP */
+        else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
+            FL.setPower(-gamepad1.left_stick_x);
+            BL.setPower(gamepad1.left_stick_x);
+            FR.setPower(gamepad1.left_stick_x);
+            BR.setPower(-gamepad1.left_stick_x);
+        }
 
-       /* left, left motors must push in on each other so FL is backward and BL is forward */
-       else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
-           FL.setPower(gamepad1.left_stick_x);
-           BL.setPower(-gamepad1.left_stick_x);
-           FR.setPower(gamepad1.left_stick_x);
-           BR.setPower(-gamepad1.left_stick_x);
-       }
+        /* STRAFE LEFT DOWN */
+        else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
+            FL.setPower(gamepad1.left_stick_x);
+            BL.setPower(-gamepad1.left_stick_x);
+            FR.setPower(-gamepad1.left_stick_x);
+            BR.setPower(gamepad1.left_stick_x);
+        }
 
-       /* sets power to 0 if joystick is not moving*/
-       else {
-           FL.setPower(0);
-           BL.setPower(0);
-           FR.setPower(0);
-           BR.setPower(0);
-       }
-   }
+        /* TURN LEFT */
+        else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
+            FL.setPower(-gamepad1.left_stick_x);
+            BL.setPower(-gamepad1.left_stick_x);
+            FR.setPower(gamepad1.left_stick_x);
+            BR.setPower(gamepad1.left_stick_x);
+        }
+
+        /* TURN RIGHT */
+        else if(Math.abs(gamepad1.left_stick_y) > seconds && Math.abs(gamepad1.left_stick_x) > seconds) {
+            FL.setPower(gamepad1.left_stick_x);
+            BL.setPower(gamepad1.left_stick_x);
+            FR.setPower(-gamepad1.left_stick_x);
+            BR.setPower(-gamepad1.left_stick_x);
+        }
+
+        /* sets power to 0 if joystick is not moving*/
+        else {
+            FL.setPower(0);
+            BL.setPower(0);
+            FR.setPower(0);
+            BR.setPower(0);
+        }
+    }
 }
-
-
-
 
 
