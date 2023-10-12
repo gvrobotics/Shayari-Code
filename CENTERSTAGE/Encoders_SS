@@ -78,14 +78,18 @@ public class Encoders_SS extends LinearOpMode
         movementRL(robotMotion.left, 20, 0.3); // must be slower than forward/backward
         backward(36, 0.4);
         armMovement(robotMotion.armUp, 0.3, 0.2);
-        clawMovement();
+        clawMovement(true);
+        wait((long) 0.5); // some sort of delay function??
+        clawMovement(false);
+
 
 
     }
 
     private void forward(double inch,  double power)
     {
-        // calculates new position for motors
+        // calculate new position for (wheel) motors
+        // make sure you cast to int!
         int a = (int)(FL.getCurrentPosition() + (inch * cpi));
         int b = (int)(FR.getCurrentPosition() + (inch * cpi));
         int c = (int)(BL.getCurrentPosition() + (inch * cpi));
@@ -99,6 +103,7 @@ public class Encoders_SS extends LinearOpMode
         BR.setTargetPosition(d);
 
         // sets desired power for motors
+        // TODO: Do for each wheel motor
         FL.setPower(power);
         FR.setPower(power);
         BL.setPower(power);
@@ -106,6 +111,7 @@ public class Encoders_SS extends LinearOpMode
 
 
         // sets motors to RUN_TO_POSITION
+        // TODO: Do for each wheel motor
         FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -235,7 +241,7 @@ public class Encoders_SS extends LinearOpMode
     }
 
     // TODO: function for claw movement
-    private boolean clawMovement (boolean state)
+    private void clawMovement (boolean state)
     {
         if (state == true)
         {
@@ -247,7 +253,7 @@ public class Encoders_SS extends LinearOpMode
         }
     }
 
-    
+
 
     private void sleep(int sleep, double power)
     {
