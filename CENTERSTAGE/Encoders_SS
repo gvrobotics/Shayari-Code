@@ -1,4 +1,3 @@
-// add when testing is over
 package org.firstinspires.ftc.teamcode;
 import java.lang.Math;
 import com.qualcomm.robotcore.hardware.DcMotorController;
