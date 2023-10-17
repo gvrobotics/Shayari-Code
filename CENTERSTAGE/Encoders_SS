@@ -15,6 +15,8 @@ public class Encoders_SS extends LinearOpMode
     public DcMotor BR, BL, FR, FL, Arm;
 
     // NOTE TO HOP: verify values
+    //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
+    //Clicks of Encoders per revolution may change based off of different model types
     double cpi = 7.5; // cycles per inch
     double cpd = 21.94; // clicks per degree
     double lcpi = 68; // lines per inch
@@ -96,10 +98,11 @@ public class Encoders_SS extends LinearOpMode
 
 
         // sets new position for motors
-        FL.setTargetPosition(a);
-        FR.setTargetPosition(b);
-        BL.setTargetPosition(c);
-        BR.setTargetPosition(d);
+        FL.setTargetPosition(Math.abs(a));
+        FR.setTargetPosition(Math.abs(b));
+        BL.setTargetPosition(Math.abs(c));
+        BR.setTargetPosition(Math.abs(d));
+
 
         // sets desired power for motors
         // TODO: Do for each wheel motor
@@ -142,13 +145,10 @@ public class Encoders_SS extends LinearOpMode
         int d = (int)(BR.getCurrentPosition() - (inch * cpi));
 
         // sets new position for motors
-        /* Why is Ishan's code doing:
-        FL.setTargetPosition(-a);??
-        */
-        FL.setTargetPosition(a);
-        FR.setTargetPosition(b);
-        BL.setTargetPosition(c);
-        BR.setTargetPosition(d);
+        FL.setTargetPosition(Math.abs(a));
+        FR.setTargetPosition(Math.abs(b));
+        BL.setTargetPosition(Math.abs(c));
+        BR.setTargetPosition(Math.abs(d));
 
         // sets desired power for motors
         FL.setPower(power);
@@ -184,15 +184,32 @@ public class Encoders_SS extends LinearOpMode
 
         if(action == robotMotion.left)
         {
-            // sets new position for motors
+            // left is moving backwards, right is moving forwards
             int a = (int)(FL.getCurrentPosition() - (inch * cpi));
-            int b = (int)(FR.getCurrentPosition() - (inch * cpi));
+            int b = (int)(FR.getCurrentPosition() + (inch * cpi));
             int c = (int)(BL.getCurrentPosition() - (inch * cpi));
-            int d = (int)(BR.getCurrentPosition() - (inch * cpi));
+            int d = (int)(BR.getCurrentPosition() + (inch * cpi));
+
+            // sets new position for motors
+            FL.setTargetPosition(Math.abs(a));
+            FR.setTargetPosition(Math.abs(b));
+            BL.setTargetPosition(Math.abs(c));
+            BR.setTargetPosition(Math.abs(d));
+
 
             // sets desired power for motors
+            FL.setPower(-power);
+            FR.setPower(power);
+            BL.setPower(-power);
+            BR.setPower(power);
+
 
             // make motors run to position
+            FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
             // loop to run encoders method
             while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
@@ -208,11 +225,31 @@ public class Encoders_SS extends LinearOpMode
 
         if(action == robotMotion.right)
         {
+            // calculates new position for motors
+            int a = (int)(FL.getCurrentPosition() + (inch * cpi));
+            int b = (int)(FR.getCurrentPosition() - (inch * cpi));
+            int c = (int)(BL.getCurrentPosition() + (inch * cpi));
+            int d = (int)(BR.getCurrentPosition() - (inch * cpi));
+
+
             // sets new position for motors
+            FL.setTargetPosition(Math.abs(a));
+            FR.setTargetPosition(Math.abs(b));
+            BL.setTargetPosition(Math.abs(c));
+            BR.setTargetPosition(Math.abs(d));
+
 
             // sets desired power for motors
+            FL.setPower(power);
+            FR.setPower(-power);
+            BL.setPower(power);
+            BR.setPower(-power);
 
             // make motors run to position
+            FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // loop to run encoders method
             while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
