@@ -9,10 +9,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+
 @Autonomous
 public class Encoders_SS extends LinearOpMode
 {
     public DcMotor BR, BL, FR, FL, Arm;
+
 
     // NOTE TO HOP: verify values
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
@@ -21,15 +23,19 @@ public class Encoders_SS extends LinearOpMode
     double cpd = 21.94; // clicks per degree
     double lcpi = 68; // lines per inch
 
+
     public enum robotMotion
     {
         right, left, armUp, armDown;
 
+
     }
+
 
     @Override
     public void runOpMode() throws InterruptedException
     {
+
 
         // hardware map
         BR = hardwareMap.get(DcMotor.class, "BR");
@@ -38,6 +44,7 @@ public class Encoders_SS extends LinearOpMode
         FL = hardwareMap.get(DcMotor.class, "FL");
         Arm = hardwareMap.get(DcMotor.class, "Arm");
 
+
         // set direction
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -45,24 +52,34 @@ public class Encoders_SS extends LinearOpMode
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         // Arm.setDirection() (tbd)
 
+
         // set mode
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
 
 
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
+
+
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
+
+
         Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
 
 
         // set initial power/position
@@ -72,20 +89,21 @@ public class Encoders_SS extends LinearOpMode
         BL.setPower(0);
         Arm.setPower(0);
 
+
         /* AUTON */
         waitForStart();
         forward(36, 0.4);
         backward(18, 0.4);
         movementRL(robotMotion.left, 20, 0.3); // must be slower than forward/backward
         backward(36, 0.4);
-        armMovement(robotMotion.armUp, 0.3, 0.2);
-        clawMovement(true);
+        //armMovement(robotMotion.armUp, 0.3, 0.2);
+        //clawMovement(true);
         wait((long) 0.5); // some sort of delay function??
-        clawMovement(false);
-
+        //clawMovement(false);
 
 
     }
+
 
     private void forward(double inch,  double power)
     {
@@ -97,11 +115,15 @@ public class Encoders_SS extends LinearOpMode
         int d = (int)(BR.getCurrentPosition() + (inch * cpi));
 
 
+
+
         // sets new position for motors
-        FL.setTargetPosition(Math.abs(a));
-        FR.setTargetPosition(Math.abs(b));
-        BL.setTargetPosition(Math.abs(c));
-        BR.setTargetPosition(Math.abs(d));
+        FL.setTargetPosition(a);
+        FR.setTargetPosition(b);
+        BL.setTargetPosition(c);
+        BR.setTargetPosition(d);
+
+
 
 
         // sets desired power for motors
@@ -110,6 +132,8 @@ public class Encoders_SS extends LinearOpMode
         FR.setPower(power);
         BL.setPower(power);
         BR.setPower(power);
+
+
 
 
         // sets motors to RUN_TO_POSITION
@@ -120,12 +144,15 @@ public class Encoders_SS extends LinearOpMode
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
+
+
         //loop to run encoders method
         while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
         {
             // TODO: Add telemetry data here
             continue;
         }
+
 
         // stop motors
         FL.setPower(0);
@@ -134,7 +161,10 @@ public class Encoders_SS extends LinearOpMode
         BR.setPower(0);
 
 
+
+
     }
+
 
     private void backward(double inch,  double power)
     {
@@ -144,11 +174,13 @@ public class Encoders_SS extends LinearOpMode
         int c = (int)(BL.getCurrentPosition() - (inch * cpi));
         int d = (int)(BR.getCurrentPosition() - (inch * cpi));
 
+
         // sets new position for motors
-        FL.setTargetPosition(Math.abs(a));
-        FR.setTargetPosition(Math.abs(b));
-        BL.setTargetPosition(Math.abs(c));
-        BR.setTargetPosition(Math.abs(d));
+        FL.setTargetPosition(-a);
+        FR.setTargetPosition(-b);
+        BL.setTargetPosition(-c);
+        BR.setTargetPosition(-d);
+
 
         // sets desired power for motors
         FL.setPower(power);
@@ -156,11 +188,13 @@ public class Encoders_SS extends LinearOpMode
         BL.setPower(power);
         BR.setPower(power);
 
+
         // make motors run to position
         FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
         // loop to run encoders method
         while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
@@ -171,16 +205,20 @@ public class Encoders_SS extends LinearOpMode
             // telemetry.update();
         }
 
+
         // stop motors
         FL.setPower(0);
         FR.setPower(0);
         BL.setPower(0);
         BR.setPower(0);
 
+
     }
+
 
     private void movementRL(robotMotion action, double inch,  double power)
     {
+
 
         if(action == robotMotion.left)
         {
@@ -190,11 +228,14 @@ public class Encoders_SS extends LinearOpMode
             int c = (int)(BL.getCurrentPosition() - (inch * cpi));
             int d = (int)(BR.getCurrentPosition() + (inch * cpi));
 
+
             // sets new position for motors
-            FL.setTargetPosition(Math.abs(a));
-            FR.setTargetPosition(Math.abs(b));
-            BL.setTargetPosition(Math.abs(c));
-            BR.setTargetPosition(Math.abs(d));
+            FL.setTargetPosition(a);
+            FR.setTargetPosition(b);
+            BL.setTargetPosition(c);
+            BR.setTargetPosition(d);
+
+
 
 
             // sets desired power for motors
@@ -204,6 +245,8 @@ public class Encoders_SS extends LinearOpMode
             BR.setPower(power);
 
 
+
+
             // make motors run to position
             FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -211,10 +254,13 @@ public class Encoders_SS extends LinearOpMode
             BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
+
+
             // loop to run encoders method
             while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
             {
             }
+
 
             // stop motors
             FL.setPower(0);
@@ -222,6 +268,7 @@ public class Encoders_SS extends LinearOpMode
             BL.setPower(0);
             BR.setPower(0);
         }
+
 
         if(action == robotMotion.right)
         {
@@ -232,11 +279,15 @@ public class Encoders_SS extends LinearOpMode
             int d = (int)(BR.getCurrentPosition() - (inch * cpi));
 
 
+
+
             // sets new position for motors
-            FL.setTargetPosition(Math.abs(a));
-            FR.setTargetPosition(Math.abs(b));
-            BL.setTargetPosition(Math.abs(c));
-            BR.setTargetPosition(Math.abs(d));
+            FL.setTargetPosition(a);
+            FR.setTargetPosition(b);
+            BL.setTargetPosition(c);
+            BR.setTargetPosition(d);
+
+
 
 
             // sets desired power for motors
@@ -245,16 +296,19 @@ public class Encoders_SS extends LinearOpMode
             BL.setPower(power);
             BR.setPower(-power);
 
+
             // make motors run to position
             FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+
             // loop to run encoders method
             while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
             {
             }
+
 
             // stop motors
             FL.setPower(0);
@@ -263,33 +317,34 @@ public class Encoders_SS extends LinearOpMode
             BR.setPower(0);
         }
 
+
     }
+
 
     // TODO: function for arm attachment
-    private void armMovement (robotMotion action, double degree, double power)
-    {
-        if (action == armUp){
-            // code
-        }
-        else if (action == armDown){
-            // code
-        }
-    }
+//    private void armMovement (robotMotion action, double degree, double power)
+//    {
+//        if (action == armUp){
+//            // code
+//        }
+//        else if (action == armDown){
+//            // code
+//        }
+//    }
+
 
     // TODO: function for claw movement
-    private void clawMovement (boolean state)
-    {
-        if (state == true)
-        {
-            // open claw
-        }
-        else
-        {
-            // close claw
-        }
-    }
-
-
+//    private void clawMovement (boolean state)
+//    {
+//        if (state == true)
+//        {
+//            // open claw
+//        }
+//        else
+//        {
+//            // close claw
+//        }
+//    }
 
     private void sleep(int sleep, double power)
     {
@@ -299,4 +354,6 @@ public class Encoders_SS extends LinearOpMode
         FL.setPower(0);
     }
 
+
 }
+
