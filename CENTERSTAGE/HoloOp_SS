@@ -1,0 +1,108 @@
+package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
+
+@TeleOp
+public class HoloOp_SS extends OpMode
+{
+    public DcMotor FR, FL, BR, BL;
+    public Servo Arm;
+    private double powerRY, powerRX, powerLX, powerLY, robotAngle, magnitude;
+
+    private double armPos = 0;
+    private double addPos = 0.01;
+
+
+    @Override
+    public void init()
+    {
+        FR = hardwareMap.get(DcMotor.class, "FR");
+        FL = hardwareMap.get(DcMotor.class, "FL");
+        BR = hardwareMap.get(DcMotor.class, "BR");
+        BL = hardwareMap.get(DcMotor.class, "BL");
+        Arm = hardwareMap.get(Servo.class, "Arm");
+
+
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+        FR.setPower(0);
+        FL.setPower(0);
+        BR.setPower(0);
+        BL.setPower(0);
+        Arm.setPosition(armPos);
+    }
+
+
+    @Override
+    public void loop()
+    {
+        // assign powers to joysticks
+        powerLX = gamepad1.left_stick_x;
+        powerLY = gamepad1.left_stick_y;
+        powerRX = gamepad1.right_stick_x;
+        powerRY = gamepad1.right_stick_y;
+
+        // calculate angle with atan2
+        // use atan2 bc it returns a value -pi to pi
+        robotAngle = Math.atan2(powerLY, powerLX);
+
+        // magnitude (distance formula)
+        magnitude = Math.sqrt(Math.pow(powerLX, 2) + Math.pow(powerLY, 2))/2;
+
+        // set power, FR and BL negative
+        FR.setPower((robotAngle - Math.PI/4)*magnitude);
+        FL.setPower((robotAngle + Math.PI/4)*magnitude);
+        BR.setPower((robotAngle + Math.PI/4)*magnitude);
+        BL.setPower((robotAngle - Math.PI/4)*magnitude);
+
+        // adjust power if right stick is not moving, set all motors to powerRX
+        if (magnitude < 0.1) {
+            if (powerRY > -0.03 && powerRY < 0.03) {
+                FR.setPower(powerRX);
+                FL.setPower(powerRX);
+                BR.setPower(powerRX);
+                BL.setPower(powerRX);
+
+            }
+        }
+
+        // code for arm/attachment
+        // CLARIFY OBJECTIVES!!
+        /* as up arrow is pressed:
+            arm's position automatically adjust by a # of degrees
+        */
+        if (gamepad1.dpad_up)
+        {
+            armPos += addPos;
+        }
+
+        if (gamepad1.dpad_down) {
+            armPos -= addPos;
+        }
+
+        armPos = Range.clip(armPos, 0.0, 1.0);
+        Arm.setPosition(armPos);
+
+        // telemetry!!
+        telemetry.addData("powerRX: ", gamepad1.right_stick_x);
+        telemetry.addData("powerRY: ", gamepad1.right_stick_y);
+        telemetry.addData("powerLX: ", gamepad1.left_stick_x);
+        telemetry.addData("powerLY: ", gamepad1.left_stick_y);
+        telemetry.addData("robotAngle: ", robotAngle);
+        telemetry.addData("Magnitude: ", magnitude);
+        telemetry.addData("Arm Position: ", Arm.getPosition());
+        telemetry.update();
+
+
+    }
+}
+
+
