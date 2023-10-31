@@ -1,108 +1,399 @@
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import java.lang.Math;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.Servo;
+import static org.firstinspires.ftc.teamcode.Encoders_SS.robotMotion.armDown;
+import static org.firstinspires.ftc.teamcode.Encoders_SS.robotMotion.armUp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@TeleOp
-public class HoloOp_SS extends OpMode
+
+@Autonomous
+public class Encoders_SS extends LinearOpMode
 {
-    public DcMotor FR, FL, BR, BL;
-    public Servo Arm;
-    private double powerRY, powerRX, powerLX, powerLY, robotAngle, magnitude;
+    public DcMotor BR, BL, FR, FL, Arm;
 
-    private double armPos = 0;
-    private double addPos = 0.01;
+
+    // NOTE TO HOP: verify values
+    //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
+    //Clicks of Encoders per revolution may change based off of different model types
+    double cpi = 7.5; // cycles per inch
+    double cpd = 21.94; // clicks per degree
+
+   // double lcpi = 68; // lines per inch
+
+
+    public enum robotMotion
+    {
+        right, left, armUp, armDown;
+
+
+    }
 
 
     @Override
-    public void init()
+    public void runOpMode() throws InterruptedException
     {
-        FR = hardwareMap.get(DcMotor.class, "FR");
-        FL = hardwareMap.get(DcMotor.class, "FL");
+
+
+        // hardware map
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
-        Arm = hardwareMap.get(Servo.class, "Arm");
+        FR = hardwareMap.get(DcMotor.class, "FR");
+        FL = hardwareMap.get(DcMotor.class, "FL");
+        Arm = hardwareMap.get(DcMotor.class, "Arm");
 
 
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        // set direction
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        // Arm.setDirection() (tbd)
 
 
+        // set mode
+        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
+
+        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
+
+        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
+
+        Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
+
+
+        // set initial power/position
         FR.setPower(0);
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-        Arm.setPosition(armPos);
+        Arm.setPower(0);
+
+
+        /* AUTON */
+//        waitForStart();
+//        forward(36, 0.4);
+//        backward(18, 0.4);
+//        movementRL(robotMotion.left, 20, 0.3); // must be slower than forward/backward
+//        backward(36, 0.4);
+//        //armMovement(robotMotion.armUp, 0.3, 0.2);
+//        //clawMovement(true);
+//        wait((long) 0.5); // some sort of delay function??
+//        //clawMovement(false);
+
+
     }
 
 
-    @Override
-    public void loop()
+    private void forward(double inch,  double power)
     {
-        // assign powers to joysticks
-        powerLX = gamepad1.left_stick_x;
-        powerLY = gamepad1.left_stick_y;
-        powerRX = gamepad1.right_stick_x;
-        powerRY = gamepad1.right_stick_y;
+        // calculate new position for (wheel) motors
+        // make sure you cast to int!
+        int a = (int)(FL.getCurrentPosition() + (inch * cpi));
+        int b = (int)(FR.getCurrentPosition() + (inch * cpi));
+        int c = (int)(BL.getCurrentPosition() + (inch * cpi));
+        int d = (int)(BR.getCurrentPosition() + (inch * cpi));
 
-        // calculate angle with atan2
-        // use atan2 bc it returns a value -pi to pi
-        robotAngle = Math.atan2(powerLY, powerLX);
 
-        // magnitude (distance formula)
-        magnitude = Math.sqrt(Math.pow(powerLX, 2) + Math.pow(powerLY, 2))/2;
 
-        // set power, FR and BL negative
-        FR.setPower((robotAngle - Math.PI/4)*magnitude);
-        FL.setPower((robotAngle + Math.PI/4)*magnitude);
-        BR.setPower((robotAngle + Math.PI/4)*magnitude);
-        BL.setPower((robotAngle - Math.PI/4)*magnitude);
 
-        // adjust power if right stick is not moving, set all motors to powerRX
-        if (magnitude < 0.1) {
-            if (powerRY > -0.03 && powerRY < 0.03) {
-                FR.setPower(powerRX);
-                FL.setPower(powerRX);
-                BR.setPower(powerRX);
-                BL.setPower(powerRX);
+        // sets new position for motors
+        FL.setTargetPosition(a);
+        FR.setTargetPosition(b);
+        BL.setTargetPosition(c);
+        BR.setTargetPosition(d);
 
-            }
-        }
 
-        // code for arm/attachment
-        // CLARIFY OBJECTIVES!!
-        /* as up arrow is pressed:
-            arm's position automatically adjust by a # of degrees
-        */
-        if (gamepad1.dpad_up)
+
+
+        // sets desired power for motors
+        // TODO: Do for each wheel motor
+        FL.setPower(power);
+        FR.setPower(power);
+        BL.setPower(power);
+        BR.setPower(power);
+
+
+
+
+        // sets motors to RUN_TO_POSITION
+        // TODO: Do for each wheel motor
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+
+        //loop to run encoders method
+        while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
         {
-            armPos += addPos;
+            // TODO: Add telemetry data here
+            telemetry.addData("FL Target", a);
+            telemetry.addData("FL Actual", FL.getCurrentPosition());
+
+            telemetry.addData("FR Target", b);
+            telemetry.addData("FR Actual", FR.getCurrentPosition());
+
+            telemetry.addData("BL Target", c);
+            telemetry.addData("BL Actual", BL.getCurrentPosition());
+
+            telemetry.addData("BR Target", d);
+            telemetry.addData("BR Actual", BR.getCurrentPosition());
         }
 
-        if (gamepad1.dpad_down) {
-            armPos -= addPos;
-        }
 
-        armPos = Range.clip(armPos, 0.0, 1.0);
-        Arm.setPosition(armPos);
+        // stop motors
+        FL.setPower(0);
+        FR.setPower(0);
+        BL.setPower(0);
+        BR.setPower(0);
 
-        // telemetry!!
-        telemetry.addData("powerRX: ", gamepad1.right_stick_x);
-        telemetry.addData("powerRY: ", gamepad1.right_stick_y);
-        telemetry.addData("powerLX: ", gamepad1.left_stick_x);
-        telemetry.addData("powerLY: ", gamepad1.left_stick_y);
-        telemetry.addData("robotAngle: ", robotAngle);
-        telemetry.addData("Magnitude: ", magnitude);
-        telemetry.addData("Arm Position: ", Arm.getPosition());
-        telemetry.update();
+
 
 
     }
-}
 
+
+    private void backward(double inch,  double power)
+    {
+        // calculate new position for motors
+        int a = (int)(FL.getCurrentPosition() - (inch * cpi));
+        int b = (int)(FR.getCurrentPosition() - (inch * cpi));
+        int c = (int)(BL.getCurrentPosition() - (inch * cpi));
+        int d = (int)(BR.getCurrentPosition() - (inch * cpi));
+
+
+        // sets new position for motors
+        FL.setTargetPosition(-a);
+        FR.setTargetPosition(-b);
+        BL.setTargetPosition(-c);
+        BR.setTargetPosition(-d);
+
+
+        // sets desired power for motors
+        FL.setPower(power);
+        FR.setPower(power);
+        BL.setPower(power);
+        BR.setPower(power);
+
+
+        // make motors run to position
+        FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+        // loop to run encoders method
+        while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
+        {
+            telemetry.addData("FL Target", a);
+            telemetry.addData("FL Actual", FL.getCurrentPosition());
+
+            telemetry.addData("FR Target", b);
+            telemetry.addData("FR Actual", FR.getCurrentPosition());
+
+            telemetry.addData("BL Target", c);
+            telemetry.addData("BL Actual", BL.getCurrentPosition());
+
+            telemetry.addData("BR Target", d);
+            telemetry.addData("BR Actual", BR.getCurrentPosition());
+        }
+
+
+        // stop motors
+        FL.setPower(0);
+        FR.setPower(0);
+        BL.setPower(0);
+        BR.setPower(0);
+
+
+    }
+
+
+    private void movementRL(robotMotion action, double inch,  double power)
+    {
+
+
+        if(action == robotMotion.left)
+        {
+            // left is moving backwards, right is moving forwards
+            int a = (int)(FL.getCurrentPosition() - (inch * cpi));
+            int b = (int)(FR.getCurrentPosition() + (inch * cpi));
+            int c = (int)(BL.getCurrentPosition() - (inch * cpi));
+            int d = (int)(BR.getCurrentPosition() + (inch * cpi));
+
+
+            // sets new position for motors
+            FL.setTargetPosition(a);
+            FR.setTargetPosition(b);
+            BL.setTargetPosition(c);
+            BR.setTargetPosition(d);
+
+
+
+
+            // sets desired power for motors
+            FL.setPower(-power);
+            FR.setPower(power);
+            BL.setPower(-power);
+            BR.setPower(power);
+
+
+
+
+            // make motors run to position
+            FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+
+            // loop to run encoders method
+            while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
+            {
+                telemetry.addData("FL Target", a);
+                telemetry.addData("FL Actual", FL.getCurrentPosition());
+
+                telemetry.addData("FR Target", b);
+                telemetry.addData("FR Actual", FR.getCurrentPosition());
+
+                telemetry.addData("BL Target", c);
+                telemetry.addData("BL Actual", BL.getCurrentPosition());
+
+                telemetry.addData("BR Target", d);
+                telemetry.addData("BR Actual", BR.getCurrentPosition());
+            }
+
+
+            // stop motors
+            FL.setPower(0);
+            FR.setPower(0);
+            BL.setPower(0);
+            BR.setPower(0);
+        }
+
+
+        if(action == robotMotion.right)
+        {
+            // calculates new position for motors
+            int a = (int)(FL.getCurrentPosition() + (inch * cpi));
+            int b = (int)(FR.getCurrentPosition() - (inch * cpi));
+            int c = (int)(BL.getCurrentPosition() + (inch * cpi));
+            int d = (int)(BR.getCurrentPosition() - (inch * cpi));
+
+
+
+
+            // sets new position for motors
+            FL.setTargetPosition(a);
+            FR.setTargetPosition(b);
+            BL.setTargetPosition(c);
+            BR.setTargetPosition(d);
+
+
+
+
+            // sets desired power for motors
+            FL.setPower(power);
+            FR.setPower(-power);
+            BL.setPower(power);
+            BR.setPower(-power);
+
+
+            // make motors run to position
+            FL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            FR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            // loop to run encoders method
+            while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
+            {
+                telemetry.addData("FL Target", a);
+                telemetry.addData("FL Actual", FL.getCurrentPosition());
+
+                telemetry.addData("FR Target", b);
+                telemetry.addData("FR Actual", FR.getCurrentPosition());
+
+                telemetry.addData("BL Target", c);
+                telemetry.addData("BL Actual", BL.getCurrentPosition());
+
+                telemetry.addData("BR Target", d);
+                telemetry.addData("BR Actual", BR.getCurrentPosition());
+            }
+
+
+            // stop motors
+            FL.setPower(0);
+            FR.setPower(0);
+            BL.setPower(0);
+            BR.setPower(0);
+        }
+
+
+    }
+
+
+    // TODO: function for arm attachment
+//    private void armMovement (robotMotion action, double degree, double power)
+//    {
+//        if (action == armUp){
+//            // code
+//        }
+//        else if (action == armDown){
+//            // code
+//        }
+//    }
+
+
+    // TODO: function for claw movement
+//    private void clawMovement (boolean state)
+//    {
+//        if (state == true)
+//        {
+//            // open claw
+//        }
+//        else
+//        {
+//            // close claw
+//        }
+//    }
+
+    private void sleep(int sleep, double power)
+    {
+        BR.setPower(0);
+        FR.setPower(0);
+        BL.setPower(0);
+        FL.setPower(0);
+    }
+
+
+}
 
