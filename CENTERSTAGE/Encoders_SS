@@ -21,7 +21,8 @@ public class Encoders_SS extends LinearOpMode
     //Clicks of Encoders per revolution may change based off of different model types
     double cpi = 7.5; // cycles per inch
     double cpd = 21.94; // clicks per degree
-    double lcpi = 68; // lines per inch
+
+   // double lcpi = 68; // lines per inch
 
 
     public enum robotMotion
@@ -91,15 +92,15 @@ public class Encoders_SS extends LinearOpMode
 
 
         /* AUTON */
-        waitForStart();
-        forward(36, 0.4);
-        backward(18, 0.4);
-        movementRL(robotMotion.left, 20, 0.3); // must be slower than forward/backward
-        backward(36, 0.4);
-        //armMovement(robotMotion.armUp, 0.3, 0.2);
-        //clawMovement(true);
-        wait((long) 0.5); // some sort of delay function??
-        //clawMovement(false);
+//        waitForStart();
+//        forward(36, 0.4);
+//        backward(18, 0.4);
+//        movementRL(robotMotion.left, 20, 0.3); // must be slower than forward/backward
+//        backward(36, 0.4);
+//        //armMovement(robotMotion.armUp, 0.3, 0.2);
+//        //clawMovement(true);
+//        wait((long) 0.5); // some sort of delay function??
+//        //clawMovement(false);
 
 
     }
@@ -150,7 +151,17 @@ public class Encoders_SS extends LinearOpMode
         while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
         {
             // TODO: Add telemetry data here
-            continue;
+            telemetry.addData("FL Target", a);
+            telemetry.addData("FL Actual", FL.getCurrentPosition());
+
+            telemetry.addData("FR Target", b);
+            telemetry.addData("FR Actual", FR.getCurrentPosition());
+
+            telemetry.addData("BL Target", c);
+            telemetry.addData("BL Actual", BL.getCurrentPosition());
+
+            telemetry.addData("BR Target", d);
+            telemetry.addData("BR Actual", BR.getCurrentPosition());
         }
 
 
@@ -199,10 +210,17 @@ public class Encoders_SS extends LinearOpMode
         // loop to run encoders method
         while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
         {
-            continue;
-            // telemetry.addLine();
-            // telemetry.addData();
-            // telemetry.update();
+            telemetry.addData("FL Target", a);
+            telemetry.addData("FL Actual", FL.getCurrentPosition());
+
+            telemetry.addData("FR Target", b);
+            telemetry.addData("FR Actual", FR.getCurrentPosition());
+
+            telemetry.addData("BL Target", c);
+            telemetry.addData("BL Actual", BL.getCurrentPosition());
+
+            telemetry.addData("BR Target", d);
+            telemetry.addData("BR Actual", BR.getCurrentPosition());
         }
 
 
@@ -259,6 +277,17 @@ public class Encoders_SS extends LinearOpMode
             // loop to run encoders method
             while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
             {
+                telemetry.addData("FL Target", a);
+                telemetry.addData("FL Actual", FL.getCurrentPosition());
+
+                telemetry.addData("FR Target", b);
+                telemetry.addData("FR Actual", FR.getCurrentPosition());
+
+                telemetry.addData("BL Target", c);
+                telemetry.addData("BL Actual", BL.getCurrentPosition());
+
+                telemetry.addData("BR Target", d);
+                telemetry.addData("BR Actual", BR.getCurrentPosition());
             }
 
 
@@ -307,6 +336,17 @@ public class Encoders_SS extends LinearOpMode
             // loop to run encoders method
             while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
             {
+                telemetry.addData("FL Target", a);
+                telemetry.addData("FL Actual", FL.getCurrentPosition());
+
+                telemetry.addData("FR Target", b);
+                telemetry.addData("FR Actual", FR.getCurrentPosition());
+
+                telemetry.addData("BL Target", c);
+                telemetry.addData("BL Actual", BL.getCurrentPosition());
+
+                telemetry.addData("BR Target", d);
+                telemetry.addData("BR Actual", BR.getCurrentPosition());
             }
 
 
