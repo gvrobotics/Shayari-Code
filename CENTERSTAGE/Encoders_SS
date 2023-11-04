@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous
 public class Encoders_SS extends LinearOpMode
 {
-    public DcMotor BR, BL, FR, FL, Arm;
+    public DcMotor BR, BL, FR, FL;
 
 
     // NOTE TO HOP: verify values
@@ -22,7 +22,7 @@ public class Encoders_SS extends LinearOpMode
     double cpi = 4; // cycles per inch
     double cpd = 4; // clicks per degree
 
-   // double lcpi = 68; // lines per inch
+    // double lcpi = 68; // lines per inch
 
 
     public enum robotMotion
@@ -43,7 +43,7 @@ public class Encoders_SS extends LinearOpMode
         BL = hardwareMap.get(DcMotor.class, "BL");
         FR = hardwareMap.get(DcMotor.class, "FR");
         FL = hardwareMap.get(DcMotor.class, "FL");
-        Arm = hardwareMap.get(DcMotor.class, "Arm");
+        //Arm = hardwareMap.get(DcMotor.class, "Arm");
 
 
         // set direction
@@ -58,18 +58,11 @@ public class Encoders_SS extends LinearOpMode
         BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-
         BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-
-
-
         FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
 
         FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -77,8 +70,8 @@ public class Encoders_SS extends LinearOpMode
 
 
 
-        Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       // Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       // Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
 
@@ -88,7 +81,7 @@ public class Encoders_SS extends LinearOpMode
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-        Arm.setPower(0);
+       // Arm.setPower(0);
 
 
         /* AUTON */
@@ -103,8 +96,9 @@ public class Encoders_SS extends LinearOpMode
 //        //clawMovement(false);
 
         waitForStart();
-        forward(1, 0.2);
-        robotSleep(3000);
+        sleep(200, 0.0);
+        forward(2, 0.01);
+        sleep(200, 0.0);
 
 
     }
@@ -400,4 +394,3 @@ public class Encoders_SS extends LinearOpMode
 
 
 }
-
