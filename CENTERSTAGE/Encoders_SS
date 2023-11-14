@@ -326,8 +326,6 @@ public class Encoders_SS extends LinearOpMode
             BR.setTargetPosition(d);
 
 
-
-
             // sets desired power for motors
             FL.setPower(power);
             FR.setPower(-power);
@@ -356,7 +354,7 @@ public class Encoders_SS extends LinearOpMode
 
                 telemetry.addData("BR Target", d);
                 telemetry.addData("BR Actual", BR.getCurrentPosition());
-                
+
                 telemetry.update();
             }
 
