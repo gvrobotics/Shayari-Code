@@ -6,12 +6,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-
 @TeleOp
 public class HoloOp_SS extends OpMode
 {
     public DcMotor FR, FL, BR, BL;
-    public Servo Arm;
+    //public Servo Arm;
     private double powerRY, powerRX, powerLX, powerLY, robotAngle, magnitude;
 
     private double armPos = 0;
@@ -25,7 +24,7 @@ public class HoloOp_SS extends OpMode
         FL = hardwareMap.get(DcMotor.class, "FL");
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
-        Arm = hardwareMap.get(Servo.class, "Arm");
+        //Arm = hardwareMap.get(Servo.class, "Arm");
 
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -38,7 +37,7 @@ public class HoloOp_SS extends OpMode
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-        Arm.setPosition(armPos);
+        //Arm.setPosition(armPos);
     }
 
 
@@ -90,7 +89,7 @@ public class HoloOp_SS extends OpMode
         }
 
         armPos = Range.clip(armPos, 0.0, 1.0);
-        Arm.setPosition(armPos);
+        //Arm.setPosition(armPos);
 
         // telemetry!!
         telemetry.addData("powerRX: ", gamepad1.right_stick_x);
@@ -99,7 +98,13 @@ public class HoloOp_SS extends OpMode
         telemetry.addData("powerLY: ", gamepad1.left_stick_y);
         telemetry.addData("robotAngle: ", robotAngle);
         telemetry.addData("Magnitude: ", magnitude);
-        telemetry.addData("Arm Position: ", Arm.getPosition());
+
+        telemetry.addData("FR START: ", FR.getCurrentPosition());
+        telemetry.addData("FL START: ", FL.getCurrentPosition());
+        telemetry.addData("BR START: ", BR.getCurrentPosition());
+        telemetry.addData("BL START: ", BL.getCurrentPosition());
+        
+        //telemetry.addData("Arm Position: ", Arm.getPosition());
         telemetry.update();
 
 
