@@ -15,7 +15,6 @@ public class Encoders_SS extends LinearOpMode
 {
     public DcMotor BR, BL, FR, FL;
 
-
     // NOTE TO HOP: verify values
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
