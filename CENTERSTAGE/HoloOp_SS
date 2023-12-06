@@ -3,18 +3,16 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class HoloOp_SS extends OpMode
 {
-    public DcMotor FR, FL, BR, BL;
-    //public Servo Arm;
+    public DcMotor FR, FL, BR, BL, Arm;
+    public Servo Launcher;
     private double powerRY, powerRX, powerLX, powerLY, robotAngle, magnitude;
 
-    private double armPos = 0;
-    private double addPos = 0.01;
 
 
     @Override
@@ -24,20 +22,22 @@ public class HoloOp_SS extends OpMode
         FL = hardwareMap.get(DcMotor.class, "FL");
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
-        //Arm = hardwareMap.get(Servo.class, "Arm");
-
+        Arm = hardwareMap.get(DcMotor.class, "Arm");
+        Launcher = hardwareMap.get(Servo.class, "Launcher");
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        Arm.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         FR.setPower(0);
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-        //Arm.setPosition(armPos);
+        Arm.setPower(0);
+        Launcher.setPosition(0.5);
     }
 
 
@@ -73,25 +73,33 @@ public class HoloOp_SS extends OpMode
 
             }
         }
-
-        // code for arm/attachment
-
-        /* as up arrow is pressed:
-            arm's position automatically adjust by a # of degrees
-        */
-        if (gamepad1.dpad_up)
+        
+        // CODE FOR ARM
+        // revision: use encoders for identifying position of arm?
+        
+        // going up
+        if (gamepad2.dpad_up)
         {
-            armPos += addPos;
+            Arm.setPower(0.2);
+        }
+        // stopping when going up
+        if(gamepad2.dpad_right) {
+            Arm.setPower(-0.09);
+        }
+        // going down
+        if(gamepad2.dpad_down){
+            Arm.setPower(-0.2);
+        }
+        // stop when going down
+        if(gamepad2.dpad_left){
+            Arm.setPower(0.1);
+        }
+        // stop TOTALLY
+        if(gamepad2.x){
+            Arm.setPower(0);
         }
 
-        if (gamepad1.dpad_down) {
-            armPos -= addPos;
-        }
-
-        armPos = Range.clip(armPos, 0.0, 1.0);
-        //Arm.setPosition(armPos);
-
-        // telemetry!!
+        // telemetry
         telemetry.addData("powerRX: ", gamepad1.right_stick_x);
         telemetry.addData("powerRY: ", gamepad1.right_stick_y);
         telemetry.addData("powerLX: ", gamepad1.left_stick_x);
@@ -103,11 +111,10 @@ public class HoloOp_SS extends OpMode
         telemetry.addData("FL START: ", FL.getCurrentPosition());
         telemetry.addData("BR START: ", BR.getCurrentPosition());
         telemetry.addData("BL START: ", BL.getCurrentPosition());
-        
-        //telemetry.addData("Arm Position: ", Arm.getPosition());
+
+        telemetry.addData("Arm: ", Arm.getPower());
         telemetry.update();
 
 
     }
 }
-
