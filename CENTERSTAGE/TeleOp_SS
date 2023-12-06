@@ -57,7 +57,7 @@ public class TeleOp_SS extends OpMode {
         powerRY = gamepad1.right_stick_y/2;
 
 
-        if(powerLY > 0.03 || powerLY < -0.03)
+        if(powerLY > 0.05 || powerLY < -0.05)
         {
             FL.setPower(powerLY);
             BL.setPower(powerLY);
@@ -68,7 +68,7 @@ public class TeleOp_SS extends OpMode {
         }
 
 
-        if(powerRY > 0.03 || powerRY < -0.03)
+        if(powerRY > 0.05 || powerRY < -0.05)
         {
             FR.setPower(powerRY);
             BR.setPower(powerRY);
