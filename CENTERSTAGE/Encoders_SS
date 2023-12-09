@@ -23,7 +23,6 @@ public class Encoders_SS extends LinearOpMode
 
     // double lcpi = 68; // lines per inch
 
-
     public enum robotMotion
     {
         right, left, armUp, armDown;
