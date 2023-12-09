@@ -37,7 +37,7 @@ public class HoloOp_SS extends OpMode
         BR.setPower(0);
         BL.setPower(0);
         Arm.setPower(0);
-        Launcher.setPosition(0.5);
+        Launcher.setPosition(0);
     }
 
 
@@ -73,10 +73,10 @@ public class HoloOp_SS extends OpMode
 
             }
         }
-        
+
         // CODE FOR ARM
         // revision: use encoders for identifying position of arm?
-        
+
         // going up
         if (gamepad2.dpad_up)
         {
@@ -99,6 +99,17 @@ public class HoloOp_SS extends OpMode
             Arm.setPower(0);
         }
 
+        // launcher
+        if (gamepad2.a)
+        {
+            Launcher.setPosition(0.4);
+        }
+        // reset
+        else if (gamepad2.y)
+        {
+            Launcher.setPosition(0);
+        }
+
         // telemetry
         telemetry.addData("powerRX: ", gamepad1.right_stick_x);
         telemetry.addData("powerRY: ", gamepad1.right_stick_y);
@@ -112,7 +123,8 @@ public class HoloOp_SS extends OpMode
         telemetry.addData("BR START: ", BR.getCurrentPosition());
         telemetry.addData("BL START: ", BL.getCurrentPosition());
 
-        telemetry.addData("Arm: ", Arm.getPower());
+        telemetry.addData("Arm Power: ", Arm.getPower());
+        telemetry.addData("Launcher Position: ", Launcher.getPosition());
         telemetry.update();
 
 
