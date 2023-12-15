@@ -15,19 +15,16 @@ public class Encoders_SS extends LinearOpMode
 {
     public DcMotor BR, BL, FR, FL;
 
+
     // NOTE TO HOP: verify values
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
-    double cpi = 4; // cycles per inch
+    double cpi = 7.5; // cycles per inch
     double cpd = 4; // clicks per degree
-
-    // double lcpi = 68; // lines per inch
 
     public enum robotMotion
     {
         right, left, armUp, armDown;
-
-
     }
 
 
@@ -119,15 +116,11 @@ public class Encoders_SS extends LinearOpMode
         int d = (int)(BR.getCurrentPosition() + (inch * cpi));
 
 
-
-
         // sets new position for motors
         FL.setTargetPosition(a);
         FR.setTargetPosition(b);
         BL.setTargetPosition(c);
         BR.setTargetPosition(d);
-
-
 
 
         // sets desired power for motors
@@ -136,8 +129,6 @@ public class Encoders_SS extends LinearOpMode
         FR.setPower(power);
         BL.setPower(power);
         BR.setPower(power);
-
-
 
 
         // sets motors to RUN_TO_POSITION
@@ -366,32 +357,6 @@ public class Encoders_SS extends LinearOpMode
 
 
     }
-
-
-    // TODO: function for arm attachment
-//    private void armMovement (robotMotion action, double degree, double power)
-//    {
-//        if (action == armUp){
-//            // code
-//        }
-//        else if (action == armDown){
-//            // code
-//        }
-//    }
-
-
-    // TODO: function for claw movement
-//    private void clawMovement (boolean state)
-//    {
-//        if (state == true)
-//        {
-//            // open claw
-//        }
-//        else
-//        {
-//            // close claw
-//        }
-//    }
 
     private void sleep(int sleep, double power)
     {
