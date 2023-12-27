@@ -75,12 +75,12 @@ public class HoloOp_SS extends OpMode
         }
 
         // CODE FOR ARM
-        // TEST: 12/16
+        // revision: use encoders for identifying position of arm?
 
         // going up
         if (gamepad2.dpad_up)
         {
-            Arm.setPower(0.1);
+            Arm.setPower(0.3);
         }
         // stopping when going up
         if(gamepad2.dpad_right) {
