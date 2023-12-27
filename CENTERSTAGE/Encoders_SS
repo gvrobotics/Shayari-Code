@@ -1,9 +1,4 @@
 package org.firstinspires.ftc.teamcode;
-import java.lang.Math;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.Servo;
-import static org.firstinspires.ftc.teamcode.Encoders_SS.robotMotion.armDown;
-import static org.firstinspires.ftc.teamcode.Encoders_SS.robotMotion.armUp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -19,7 +14,7 @@ public class Encoders_SS extends LinearOpMode
     // NOTE TO HOP: verify values
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
-    double cpi = 7.5; // cycles per inch
+    double cpi = 5; // cycles per inch
     double cpd = 4; // clicks per degree
 
     public enum robotMotion
@@ -50,32 +45,10 @@ public class Encoders_SS extends LinearOpMode
 
 
         // set mode
-        BR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-        BL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
-
-        FR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
-
-        FL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
-
-       // Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-       // Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         // set initial power/position
@@ -87,20 +60,24 @@ public class Encoders_SS extends LinearOpMode
 
 
         /* AUTON */
-//        waitForStart();
-//        forward(36, 0.4);
-//        backward(18, 0.4);
-//        movementRL(robotMotion.left, 20, 0.3); // must be slower than forward/backward
-//        backward(36, 0.4);
-//        //armMovement(robotMotion.armUp, 0.3, 0.2);
-//        //clawMovement(true);
-//        wait((long) 0.5); // some sort of delay function??
-//        //clawMovement(false);
 
         waitForStart();
-        sleep(200, 0.0);
-        forward(2, 0.01);
-        sleep(200, 0.0);
+        double timestamp = getRuntime();
+        FL.setPower(0.3);
+        BL.setPower(0.3);
+        FR.setPower(0.3);
+        BR.setPower(0.3);
+        while(getRuntime() - timestamp < 2){
+
+        }
+        FL.setPower(0);
+        BL.setPower(0);
+        FR.setPower(0);
+        BR.setPower(0);
+
+
+
+
 
 
     }
