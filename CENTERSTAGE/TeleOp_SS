@@ -6,14 +6,17 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 /* class must match name of file*/
 public class TeleOp_SS extends OpMode {
 
 
-    public DcMotor FR, FL, BR, BL;
-    private double powerRX, powerLX, powerRY, powerLY;
+    public DcMotor FR, FL, BR, BL, Arm;
+    public Servo Launcher;
+    private double powerRY, powerRX, powerLX, powerLY, robotAngle, magnitude;
+
 
 
     /* easier to adjust if you just set it as a variable*/
@@ -30,12 +33,17 @@ public class TeleOp_SS extends OpMode {
         FL = hardwareMap.get(DcMotor.class, "FL");
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
+        Arm = hardwareMap.get(DcMotor.class, "Arm");
+        Launcher = hardwareMap.get(Servo.class, "Launcher");
 
 
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
+        Arm.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
 
 
         /* max power is 1*/
@@ -44,6 +52,8 @@ public class TeleOp_SS extends OpMode {
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
+        Arm.setPower(0);
+        Launcher.setPosition(0);
     }
 
 
@@ -57,7 +67,7 @@ public class TeleOp_SS extends OpMode {
         powerRY = gamepad1.right_stick_y/2;
 
 
-        if(powerLY > 0.05 || powerLY < -0.05)
+        if(powerLY > 0.07 || powerLY < -0.07)
         {
             FL.setPower(powerLY);
             BL.setPower(powerLY);
@@ -68,7 +78,7 @@ public class TeleOp_SS extends OpMode {
         }
 
 
-        if(powerRY > 0.05 || powerRY < -0.05)
+        if(powerRY > 0.07 || powerRY < -0.07)
         {
             FR.setPower(powerRY);
             BR.setPower(powerRY);
@@ -78,16 +88,61 @@ public class TeleOp_SS extends OpMode {
             BR.setPower(0);
         }
 
+        // revision: use encoders for identifying position of arm?
 
-        telemetry.addData("x", "%.2f", gamepad1.left_stick_x);
-        telemetry.addData("y", "%.2f", gamepad1.left_stick_y);
+        // going up
+        if (gamepad2.dpad_up)
+        {
+            Arm.setPower(0.3);
+        }
+        // stopping when going up
+        if(gamepad2.dpad_right) {
+            Arm.setPower(-0.07);
+        }
+        // going down
+        if(gamepad2.dpad_down){
+            Arm.setPower(-0.1);
+        }
+        // stop when going down
+        if(gamepad2.dpad_left){
+            Arm.setPower(0.07);
+        }
+        // stop TOTALLY
+        if(gamepad2.x){
+            Arm.setPower(0);
+        }
+
+        // launcher
+        if (gamepad2.a)
+        {
+            Launcher.setPosition(0.4);
+        }
+        // reset
+        else if (gamepad2.y)
+        {
+            Launcher.setPosition(0);
+        }
+
+        // telemetry
+        telemetry.addData("powerRX: ", gamepad1.right_stick_x);
+        telemetry.addData("powerRY: ", gamepad1.right_stick_y);
+        telemetry.addData("powerLX: ", gamepad1.left_stick_x);
+        telemetry.addData("powerLY: ", gamepad1.left_stick_y);
+        telemetry.addData("robotAngle: ", robotAngle);
+        telemetry.addData("Magnitude: ", magnitude);
+
+        telemetry.addData("FR START: ", FR.getCurrentPosition());
+        telemetry.addData("FL START: ", FL.getCurrentPosition());
+        telemetry.addData("BR START: ", BR.getCurrentPosition());
+        telemetry.addData("BL START: ", BL.getCurrentPosition());
+
+        telemetry.addData("Arm Power: ", Arm.getPower());
+        telemetry.addData("Launcher Position: ", Launcher.getPosition());
         telemetry.update();
+
+
+
 
 
     }
 }
-
-
-
-
-
