@@ -46,9 +46,27 @@ public class Encoders_SS extends LinearOpMode
 
         // set mode
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
+
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
+
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
+
+       // Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       // Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+
 
 
         // set initial power/position
@@ -61,6 +79,7 @@ public class Encoders_SS extends LinearOpMode
 
         /* AUTON */
 
+        // REVIEW - CHANGED BY GREEN LEMONS
         waitForStart();
         double timestamp = getRuntime();
         FL.setPower(0.3);
