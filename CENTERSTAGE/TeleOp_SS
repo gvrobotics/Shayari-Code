@@ -46,6 +46,11 @@ public class TeleOp_SS extends OpMode {
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         Arm.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         FR.setPower(0);
         FL.setPower(0);
@@ -118,15 +123,15 @@ public class TeleOp_SS extends OpMode {
         // going up
         if (gamepad2.dpad_up)
         {
-            Arm.setPower(0.5);
+            Arm.setPower(0.3);
         }
         // stopping when going up
         if(gamepad2.dpad_right) {
-            Arm.setPower(-0.07);
+            Arm.setPower(-0.15);
         }
         // going down
         if(gamepad2.dpad_down){
-            Arm.setPower(-0.1);
+            Arm.setPower(-0.2);
         }
         // stop when going down
         if(gamepad2.dpad_left){
@@ -146,6 +151,10 @@ public class TeleOp_SS extends OpMode {
         else if (gamepad2.y)
         {
             Launcher.setPosition(0);
+        }
+        if (gamepad2.right_bumper)
+        {
+            Arm.setPower(0.3);
         }
 
         telemetry.addData("x", "%.2f", gamepad1.left_stick_x);
@@ -167,6 +176,3 @@ public class TeleOp_SS extends OpMode {
 
     }
 }
-
-
-
