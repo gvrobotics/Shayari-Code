@@ -14,7 +14,7 @@ public class Encoders_SS extends LinearOpMode
     // NOTE TO HOP: verify values
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
-    double cpi = 5; // cycles per inch
+    double cpi = 7.7; // cycles per inch
     double cpd = 4; // clicks per degree
 
     public enum robotMotion
@@ -47,16 +47,9 @@ public class Encoders_SS extends LinearOpMode
         // set mode
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
-
-
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-
 
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -82,17 +75,33 @@ public class Encoders_SS extends LinearOpMode
         // REVIEW - CHANGED BY GREEN LEMONS
         waitForStart();
         double timestamp = getRuntime();
-        FL.setPower(0.3);
-        BL.setPower(0.3);
-        FR.setPower(0.3);
-        BR.setPower(0.3);
-        while(getRuntime() - timestamp < 2){
+        FL.setPower(0.35);
+        BL.setPower(0.35);
+        FR.setPower(0.35);
+        BR.setPower(0.35);
+        while(getRuntime() - timestamp < 3){
 
         }
         FL.setPower(0);
         BL.setPower(0);
         FR.setPower(0);
         BR.setPower(0);
+
+        //move left
+        FR.setPower(0.4);
+        BL.setPower(0.4);
+        while(getRuntime() - timestamp < 1){
+
+        }
+        FL.setPower(0);
+        BL.setPower(0);
+        FR.setPower(0);
+        BR.setPower(0);
+
+        // If Recognition Exists, or arraylist size != 0
+        // If minConfidence is at least 0.9, pick up pixel
+        // Run to pixel
+        // Pick up pixel
 
 
 
