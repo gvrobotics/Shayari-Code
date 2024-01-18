@@ -9,9 +9,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class HoloOp_SS extends OpMode
 {
-    public DcMotor FR, FL, BR, BL, Arm;
+    public DcMotor FR, FL, BR, BL, Arm0, Arm1;
     public Servo Launcher;
     private double powerRY, powerRX, powerLX, powerLY, robotAngle, magnitude;
+
 
 
     @Override
@@ -21,21 +22,25 @@ public class HoloOp_SS extends OpMode
         FL = hardwareMap.get(DcMotor.class, "FL");
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
-        Arm = hardwareMap.get(DcMotor.class, "Arm");
+        Arm0 = hardwareMap.get(DcMotor.class, "Arm0");
+        Arm1 = hardwareMap.get(DcMotor.class, "Arm1");
+
         Launcher = hardwareMap.get(Servo.class, "Launcher");
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
-        Arm.setDirection(DcMotorSimple.Direction.REVERSE);
+        Arm0.setDirection(DcMotorSimple.Direction.REVERSE);
+        Arm1.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         FR.setPower(0);
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-        Arm.setPower(0);
+        Arm0.setPower(0);
+        Arm1.setPower(0);
         Launcher.setPosition(0);
     }
 
@@ -79,23 +84,23 @@ public class HoloOp_SS extends OpMode
         // going up
         if (gamepad2.dpad_up)
         {
-            Arm.setPower(0.3);
+            Arm0.setPower(0.3);
+            Arm1.setPower(0.3);
+
         }
-        // stopping when going up
-        if(gamepad2.dpad_right) {
-            Arm.setPower(-0.07);
-        }
+
         // going down
         if(gamepad2.dpad_down){
-            Arm.setPower(-0.1);
+            Arm0.setPower(-0.1);
+            Arm1.setPower(-0.1);
+
         }
-        // stop when going down
-        if(gamepad2.dpad_left){
-            Arm.setPower(0.07);
-        }
+
         // stop TOTALLY
         if(gamepad2.x){
-            Arm.setPower(0);
+            Arm0.setPower(0);
+            Arm1.setPower(0);
+
         }
 
         // launcher
@@ -108,6 +113,16 @@ public class HoloOp_SS extends OpMode
         {
             Launcher.setPosition(0);
         }
+
+        // slides
+
+        // increment
+        // slow going up
+//        if (gamepad2.right_trigger)
+//        {
+//
+//        }
+
 
         // telemetry
         telemetry.addData("powerRX: ", gamepad1.right_stick_x);
@@ -122,7 +137,8 @@ public class HoloOp_SS extends OpMode
         telemetry.addData("BR START: ", BR.getCurrentPosition());
         telemetry.addData("BL START: ", BL.getCurrentPosition());
 
-        telemetry.addData("Arm Power: ", Arm.getPower());
+        telemetry.addData("Arm 0 Power: ", Arm0.getPower());
+        telemetry.addData("Arm 1 Power: ", Arm1.getPower());
         telemetry.addData("Launcher Position: ", Launcher.getPosition());
         telemetry.update();
 
