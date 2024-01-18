@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-
 @Autonomous
 public class Encoders_SS extends LinearOpMode
 {
@@ -14,8 +13,10 @@ public class Encoders_SS extends LinearOpMode
     // NOTE TO HOP: verify values
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
-    double cpi = 7.7; // cycles per inch
-    double cpd = 4; // clicks per degree
+
+    // TEST THESE VALUES!!
+    double cpi = 63.3; // cycles per inch
+    double cpd = 2.1; // clicks per degree
 
     public enum robotMotion
     {
