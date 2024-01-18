@@ -15,7 +15,7 @@ public class Encoders_SS extends LinearOpMode
     //Clicks of Encoders per revolution may change based off of different model types
 
     // TEST THESE VALUES!!
-    double cpi = 63.3; // cycles per inch
+    double cpi = 12.2; // cycles per inch
     double cpd = 2.1; // clicks per degree
 
     public enum robotMotion
@@ -75,9 +75,7 @@ public class Encoders_SS extends LinearOpMode
         waitForStart();
         double timestamp = getRuntime();
         forward(1, 0.2);
-        while(getRuntime() - timestamp < 3){
-
-        }
+       
 
         // REVIEW - CHANGED BY GREEN LEMONS
 //        waitForStart();
