@@ -42,7 +42,8 @@ public class Encoders_SS extends LinearOpMode
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.REVERSE);
-        // Arm.setDirection() (tbd)
+        //Arm0.setDirection() (tbd)
+        //Arm1.setDirection()
 
 
         // set mode
@@ -68,14 +69,16 @@ public class Encoders_SS extends LinearOpMode
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-       // Arm.setPower(0);
+       // Arm0.setPower(0);
+        // Arm1.setPower(0);
 
 
         /* AUTON */
         waitForStart();
         double timestamp = getRuntime();
         forward(1, 0.2);
-       
+
+
 
         // REVIEW - CHANGED BY GREEN LEMONS
 //        waitForStart();
@@ -244,7 +247,7 @@ public class Encoders_SS extends LinearOpMode
     {
 
 
-        if(action == robotMotion.left)
+        if(action == robotMotion.right)
         {
             // left is moving backwards, right is moving forwards
             int a = (int)(FL.getCurrentPosition() - (inch * cpi));
@@ -307,7 +310,7 @@ public class Encoders_SS extends LinearOpMode
         }
 
 
-        if(action == robotMotion.right)
+        if(action == robotMotion.left)
         {
             // calculates new position for motors
             int a = (int)(FL.getCurrentPosition() + (inch * cpi));
