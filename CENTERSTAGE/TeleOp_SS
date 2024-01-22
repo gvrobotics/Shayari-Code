@@ -19,10 +19,10 @@ public class TeleOp_SS extends OpMode {
 
 
     private double powerLX, powerLY, powerRX, powerRY, strafePower;
-    private DcMotor FL, BL, FR, BR, Arm0, Arm1, Rigging;
+    private DcMotor FL, BL, FR, BR, Arm0, Arm1, Rigging, Wrist;
 
     public double angle, magnitude;
-    public Servo Launcher;
+    public Servo Launcher, Claw;
 
 
     /* easier to adjust if you just set it as a variable*/
@@ -33,8 +33,6 @@ public class TeleOp_SS extends OpMode {
   (this may be adjusted once we start testing so make sure you understand it)*/
     public void init() {
         // "FR" is what you have to type into the phone
-
-
         FR = hardwareMap.get(DcMotor.class, "FR");
         FL = hardwareMap.get(DcMotor.class, "FL");
         BR = hardwareMap.get(DcMotor.class, "BR");
@@ -42,7 +40,10 @@ public class TeleOp_SS extends OpMode {
         Arm0 = hardwareMap.get(DcMotor.class, "Arm0");
         Arm1 = hardwareMap.get(DcMotor.class, "Arm1");
         Rigging = hardwareMap.get(DcMotor.class, "Rigging");
+        Wrist = hardwareMap.get(DcMotor.class, "Wrist");
         Launcher = hardwareMap.get(Servo.class, "Launcher");
+        Claw = hardwareMap.get(Servo.class, "Claw");
+
 
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -51,6 +52,8 @@ public class TeleOp_SS extends OpMode {
         Arm0.setDirection(DcMotorSimple.Direction.REVERSE);
         Arm1.setDirection(DcMotorSimple.Direction.FORWARD);
         Rigging.setDirection(DcMotorSimple.Direction.REVERSE);
+        Wrist.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -65,7 +68,10 @@ public class TeleOp_SS extends OpMode {
         Arm0.setPower(0);
         Arm1.setPower(0);
         Rigging.setPower(0);
+        Wrist.setPower(0);
         Launcher.setPosition(0);
+        Claw.setPosition(0);
+
     }
 
 
@@ -78,8 +84,7 @@ public class TeleOp_SS extends OpMode {
         powerRX = gamepad1.right_stick_x/2;
         powerRY = gamepad1.right_stick_y/2;
 
-
-        // LINEAR MOTION
+        // DRIVETRAIN
 
         if(powerLY > 0.05 || powerLY < -0.05)
         {
@@ -133,27 +138,15 @@ public class TeleOp_SS extends OpMode {
         // INTAKE/OUTTAKE
 
         // going up
-        if (gamepad2.dpad_up)
+        if (gamepad2.right_stick_button)
         {
-            Arm0.setPower(0.3);
-            Arm1.setPower(0.3);
+            Arm0.setPower(0.6);
+            Arm1.setPower(0.6);
         }
         // stopping when going up
-        if(gamepad2.dpad_right) {
-            Arm0.setPower(-0.15);
-            Arm1.setPower(-0.15);
-        }
-        // going down
-        if(gamepad2.dpad_down){
+        if(gamepad2.left_stick_button) {
             Arm0.setPower(-0.2);
             Arm1.setPower(-0.2);
-
-        }
-        // stop when going down
-        if(gamepad2.dpad_left){
-            Arm0.setPower(0.07);
-            Arm1.setPower(0.07);
-
         }
         // stop TOTALLY
         if(gamepad2.x){
@@ -163,39 +156,66 @@ public class TeleOp_SS extends OpMode {
         }
 
         // RIGGING - try to adjust so we're using only 2 buttons?
-        if (gamepad1.dpad_up)
+        if (gamepad2.dpad_up)
         {
             Rigging.setPower(0.15);
         }
-        if (gamepad1.dpad_down)
+        if (gamepad2.dpad_down)
         {
             Rigging.setPower(-0.15);
         }
-        if(gamepad1.dpad_left){
+        if(gamepad2.dpad_left){
             Rigging.setPower(0);
         }
         //max power
-        if(gamepad1.dpad_right){
+        if(gamepad2.dpad_right){
             Rigging.setPower(-0.8);
         }
-        
+
         // LAUNCHER
-        
-        if (gamepad2.a)
+        if (gamepad1.a)
         {
             Launcher.setPosition(0.4);
         }
         // reset
-        else if (gamepad2.y)
+        else if (gamepad1.y)
         {
             Launcher.setPosition(0);
         }
-        
-        
-        // TELEMETRY 
-        
-        telemetry.addData("x", "%.2f", gamepad1.left_stick_x);
-        telemetry.addData("y", "%.2f", gamepad1.left_stick_y);
+
+        // WRIST
+        if (gamepad2.left_bumper){
+            Wrist.setPower(0.4);
+        }
+        if (gamepad2.right_bumper)
+        {
+            Wrist.setPower(-0.4);
+        }
+
+        // CLAW
+
+        // close
+        if (gamepad2.a) {
+            Claw.setPosition(0);
+        }
+
+        // open claw slightly
+        if (gamepad2.y) {
+            Claw.setPosition(0.25);
+        }
+
+        // open claw a lot
+        if (gamepad2.b) {
+            Claw.setPosition(0.3);
+        }
+
+
+        // TELEMETRY
+
+        telemetry.addData("powerRX", "%.2f", gamepad1.right_stick_x);
+        telemetry.addData("powerRY", "%.2f", gamepad1.right_stick_y);
+        telemetry.addData("powerLX", "%.2f", gamepad1.left_stick_x);
+        telemetry.addData("powerLY", "%.2f", gamepad1.left_stick_y);
 
 
         telemetry.addData("FR START: ", FR.getPower());
@@ -207,6 +227,8 @@ public class TeleOp_SS extends OpMode {
         telemetry.addData("Arm1 Power: ", Arm1.getPower());
         telemetry.addData("Rigging Power: ", Rigging.getPower());
         telemetry.addData("Launcher Position: ", Launcher.getPosition());
+        telemetry.addData("Claw Position: ", Claw.getPosition());
+
 
 
 
