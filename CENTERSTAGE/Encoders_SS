@@ -15,8 +15,8 @@ public class Encoders_SS extends LinearOpMode
     //Clicks of Encoders per revolution may change based off of different model types
 
     // TEST THESE VALUES!!
-    double cpi = 12.2; // cycles per inch
-    double cpd = 2.1; // clicks per degree
+    double cpi = 7; // cycles per inch
+    double cpd = 3.7; // clicks per degree
 
     public enum robotMotion
     {
@@ -38,10 +38,18 @@ public class Encoders_SS extends LinearOpMode
 
 
         // set direction
-        BR.setDirection(DcMotorSimple.Direction.FORWARD);
-        BL.setDirection(DcMotorSimple.Direction.REVERSE);
-        FR.setDirection(DcMotorSimple.Direction.FORWARD);
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        BR.setDirection(DcMotorSimple.Direction.FORWARD);
+//        BL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        FR.setDirection(DcMotorSimple.Direction.FORWARD);
+//        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        BR.setDirection(DcMotorSimple.Direction.REVERSE);
+        BL.setDirection(DcMotorSimple.Direction.FORWARD);
+        FR.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+
+
+
         //Arm0.setDirection() (tbd)
         //Arm1.setDirection()
 
@@ -76,7 +84,9 @@ public class Encoders_SS extends LinearOpMode
         /* AUTON */
         waitForStart();
         double timestamp = getRuntime();
-        forward(1, 0.2);
+        forward(23, 0.2);
+        movementRL(robotMotion.left, 90, 0.2);
+        forward(30, 0.2);
 
 
 
@@ -243,26 +253,17 @@ public class Encoders_SS extends LinearOpMode
     }
 
 
-    private void movementRL(robotMotion action, double inch,  double power)
+    private void movementRL(robotMotion action, double degree,  double power)
     {
 
 
-        if(action == robotMotion.right)
+        if(action == robotMotion.left)
         {
             // left is moving backwards, right is moving forwards
-            int a = (int)(FL.getCurrentPosition() - (inch * cpi));
-            int b = (int)(FR.getCurrentPosition() + (inch * cpi));
-            int c = (int)(BL.getCurrentPosition() - (inch * cpi));
-            int d = (int)(BR.getCurrentPosition() + (inch * cpi));
-
-
-            // sets new position for motors
-            FL.setTargetPosition(a);
-            FR.setTargetPosition(b);
-            BL.setTargetPosition(c);
-            BR.setTargetPosition(d);
-
-
+            FL.setTargetPosition((int) (FL.getCurrentPosition() - (degree * cpd)));
+            FR.setTargetPosition((int) (FR.getCurrentPosition() + (degree * cpd)));
+            BL.setTargetPosition((int) (BL.getCurrentPosition() - (degree * cpd)));
+            BR.setTargetPosition((int) (BR.getCurrentPosition() + (degree * cpd)));
 
 
             // sets desired power for motors
@@ -286,17 +287,7 @@ public class Encoders_SS extends LinearOpMode
             // loop to run encoders method
             while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
             {
-                telemetry.addData("FL Target", a);
-                telemetry.addData("FL Actual", FL.getCurrentPosition());
-
-                telemetry.addData("FR Target", b);
-                telemetry.addData("FR Actual", FR.getCurrentPosition());
-
-                telemetry.addData("BL Target", c);
-                telemetry.addData("BL Actual", BL.getCurrentPosition());
-
-                telemetry.addData("BR Target", d);
-                telemetry.addData("BR Actual", BR.getCurrentPosition());
+                telemetry.addLine("turn right");
 
                 telemetry.update();
             }
@@ -310,22 +301,14 @@ public class Encoders_SS extends LinearOpMode
         }
 
 
-        if(action == robotMotion.left)
+
+        if(action == robotMotion.right)
         {
             // calculates new position for motors
-            int a = (int)(FL.getCurrentPosition() + (inch * cpi));
-            int b = (int)(FR.getCurrentPosition() - (inch * cpi));
-            int c = (int)(BL.getCurrentPosition() + (inch * cpi));
-            int d = (int)(BR.getCurrentPosition() - (inch * cpi));
-
-
-
-
-            // sets new position for motors
-            FL.setTargetPosition(a);
-            FR.setTargetPosition(b);
-            BL.setTargetPosition(c);
-            BR.setTargetPosition(d);
+            FL.setTargetPosition((int) (FL.getCurrentPosition() + (degree * cpd)));
+            FR.setTargetPosition((int) (FR.getCurrentPosition() - (degree * cpd)));
+            BL.setTargetPosition((int) (BL.getCurrentPosition() + (degree * cpd)));
+            BR.setTargetPosition((int) (BR.getCurrentPosition() - (degree * cpd)));
 
 
             // sets desired power for motors
@@ -345,17 +328,8 @@ public class Encoders_SS extends LinearOpMode
             // loop to run encoders method
             while (FL.isBusy() && FR.isBusy() && BL.isBusy() && BR.isBusy())
             {
-                telemetry.addData("FL Target", a);
-                telemetry.addData("FL Actual", FL.getCurrentPosition());
+                telemetry.addLine("turn left");
 
-                telemetry.addData("FR Target", b);
-                telemetry.addData("FR Actual", FR.getCurrentPosition());
-
-                telemetry.addData("BL Target", c);
-                telemetry.addData("BL Actual", BL.getCurrentPosition());
-
-                telemetry.addData("BR Target", d);
-                telemetry.addData("BR Actual", BR.getCurrentPosition());
 
                 telemetry.update();
             }
