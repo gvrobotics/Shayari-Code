@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode;
 
 // USE FOR 5440
 
-
 /* all other libraries required, any unused will appear gray*/
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
