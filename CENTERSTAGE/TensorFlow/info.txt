@@ -1,1 +1,2 @@
 model_20240201_082106.tflite is for 3795 Blue Team Prop
+model_20240202_131414.tflite is for 3795 Red Team Prop
