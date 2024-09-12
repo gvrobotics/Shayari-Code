@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp 
-public class HoloOp_3795 extends OpMode
+public class HoloOp extends OpMode
 {
     public DcMotor FR, FL, BR, BL;
     private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
