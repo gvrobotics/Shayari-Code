@@ -4,26 +4,26 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-// NOT IN USE
+
 @Autonomous
 public class Auton_SS extends LinearOpMode
 {
     public DcMotor BR, BL, FR, FL;
 
-
-    // NOTE TO HOP: verify values
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
 
     // TEST THESE VALUES!!
     double cpi = 7; // cycles per inch
     double cpd = 3.7; // clicks per degree
+    double acpi = 10; // cpi for arm- verify number
 
     public enum robotMotion
     {
         right, left, armUp, armDown;
     }
 
+    // TODO: update directions, # of motors, and add any necessary functions (most likely intake/outtake)
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -39,18 +39,11 @@ public class Auton_SS extends LinearOpMode
 
 
         // set direction
-//        BR.setDirection(DcMotorSimple.Direction.FORWARD);
-//        BL.setDirection(DcMotorSimple.Direction.REVERSE);
-//        FR.setDirection(DcMotorSimple.Direction.FORWARD);
-//        FL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
-
         //Arm0.setDirection() (tbd)
         //Arm1.setDirection()
 
@@ -82,49 +75,10 @@ public class Auton_SS extends LinearOpMode
         // Arm1.setPower(0);
 
 
-        /* AUTON */
+        /* AUTON - JUST MOVING FORWARD */
         waitForStart();
         double timestamp = getRuntime();
         forward(23, 0.2);
-        movementRL(robotMotion.left, 90, 0.2);
-        forward(30, 0.2);
-
-
-
-        // REVIEW - CHANGED BY GREEN LEMONS
-//        waitForStart();
-//        double timestamp = getRuntime();
-//        FL.setPower(0.35);
-//        BL.setPower(0.35);
-//        FR.setPower(0.35);
-//        BR.setPower(0.35);
-//        while(getRuntime() - timestamp < 3){
-//
-//        }
-//        FL.setPower(0);
-//        BL.setPower(0);
-//        FR.setPower(0);
-//        BR.setPower(0);
-//
-//        //move left
-//        FR.setPower(0.4);
-//        BL.setPower(0.4);
-//        while(getRuntime() - timestamp < 1){
-//
-//        }
-//        FL.setPower(0);
-//        BL.setPower(0);
-//        FR.setPower(0);
-//        BR.setPower(0);
-
-        // If Recognition Exists, or arraylist size != 0
-        // If minConfidence is at least 0.9, pick up pixel
-        // Run to pixel
-        // Pick up pixel
-
-
-
-
 
 
     }
