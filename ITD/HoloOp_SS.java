@@ -9,7 +9,7 @@ public class HoloOp_SS extends OpMode
 {
     public DcMotor FR, FL, BR, BL;
     private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
-
+    
     @Override
     public void init()
     {
