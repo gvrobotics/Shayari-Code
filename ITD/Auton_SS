@@ -82,40 +82,43 @@ public class Auton_SS extends LinearOpMode
 
         // PRELOADED SAMPLE
         forward(4, 0.3);
-        movementRL(robotMotion.left, 45, 0.3);
+        sleep(1000);
+        movementRL(robotMotion.left, 45, 0.1);
+        sleep(1000);
         forward(3, 0.3);
         sleep(1000);
         backward(6, 0.3);
+        sleep(1000);
 
         // SAMPLE #1
-//        movementRL(robotMotion.left, 45, 0.3);
+//        movementRL(robotMotion.left, 45, 0.1);
 //        forward(15, 0.3);
 //        sleep(1000); // PUT SAMPLE IN HIGH BASKET
 //        backward(6, 0.3);
-//        movementRL(robotMotion.left, 90, 0.3);
+//        movementRL(robotMotion.left, 90, 0.1);
 //        forward(6, 0.3);
-//        movementRL(robotMotion.left, 90, 0.3);
+//        movementRL(robotMotion.left, 90, 0.1);
 //        forward(6, 0.3);
 //        sleep(1000); // PUT SAMPLE IN HIGH BASKET
 //        backward(6, 0.3);
 
         // SAMPLE #2
-//        movementRL(robotMotion.right, 90,0.3);
+//        movementRL(robotMotion.right, 90,0.1);
 //        forward(4, 0.3);
-//        movementRL(robotMotion.left, 90,0.3);
+//        movementRL(robotMotion.left, 90,0.1);
 //        forward(4, 0.3);
 //        sleep(1000);PUT SAMPLE IN HIGH BASKET
 //        backward(6, 0.3);
-//        movementRL(robotMotion.left, 90,0.3);
+//        movementRL(robotMotion.left, 90,0.1);
 //        forward(4, 0.3);
-//        movementRL(robotMotion.left, 90,0.3);
+//        movementRL(robotMotion.left, 90,0.1);
 //        forward(4, 0.3);
 //        sleep(1000); // PUT SAMPLE IN HIGH BASKET
 //        backward(6, 0.3);
 
         // SAMPLE #3
         // PUT LAST SAMPLE IN NET ZONE
-        
+
 
         // lift arm
         // drop into high basket
