@@ -60,8 +60,8 @@ public class Auton_SS extends LinearOpMode
 
 
 
-       // Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-       // Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
 
@@ -71,14 +71,135 @@ public class Auton_SS extends LinearOpMode
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-       // Arm0.setPower(0);
+        // Arm0.setPower(0);
         // Arm1.setPower(0);
 
 
         /* AUTON - JUST MOVING FORWARD */
         waitForStart();
-        double timestamp = getRuntime();
-        forward(23, 0.2);
+
+        // Each square is 24x24
+
+        // PRELOADED SAMPLE
+        forward(4, 0.3);
+        movementRL(robotMotion.left, 45, 0.3);
+        forward(3, 0.3);
+        wait(); // PUT SAMPLE IN HIGH BASKET
+        backward(6, 0.3);
+
+        // SAMPLE #1
+//        movementRL(robotMotion.left, 45, 0.3);
+//        forward(15, 0.3);
+//        wait(); // PUT SAMPLE IN HIGH BASKET
+//        backward(6, 0.3);
+//        movementRL(robotMotion.left, 90, 0.3);
+//        forward(6, 0.3);
+//        movementRL(robotMotion.left, 90, 0.3);
+//        forward(6, 0.3);
+//        wait(); // PUT SAMPLE IN HIGH BASKET
+//        backward(6, 0.3);
+
+        // SAMPLE #2
+//        movementRL(robotMotion.right, 90,0.3);
+//        forward(4, 0.3);
+//        movementRL(robotMotion.left, 90,0.3);
+//        forward(4, 0.3);
+//        wait(); // PUT SAMPLE IN HIGH BASKET
+//        backward(6, 0.3);
+//        movementRL(robotMotion.left, 90,0.3);
+//        forward(4, 0.3);
+//        movementRL(robotMotion.left, 90,0.3);
+//        forward(4, 0.3);
+//        wait(); // PUT SAMPLE IN HIGH BASKET
+//        backward(6, 0.3);
+
+        // SAMPLE #3
+        // PUT LAST SAMPLE IN NET ZONE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        movementRL(robotMotion.right, 90, 0.3);
+        wait(); // PUT SAMPLE IN HIGH BASKET
+        backward(3, 0.3);
+
+        // SAMPLE #2
+        movementRL(robotMotion.right, 90, 0.3);
+        forward(20, 0.3);
+        movementRL(robotMotion.right, 90, 0.3);
+        forward(4, 0.3);
+        movementRL(robotMotion.left, 90, 0.3);
+        forward(4, 0.3);
+        wait(); // PICK UP SAMPLE
+        backward(4, 0.3);
+        movementRL(robotMotion.left, 90, 0.3);
+        forward(3, 0.3);
+        movementRL(robotMotion.left, 90, 0.3);
+        forward(9, 0.3);
+        wait(); // PUT SAMPLE IN LOW BASKET
+        backward(26, 0.3);
+
+        // SAMPLE #3
+        movementRL(robotMotion.right, 90, 0.3);
+        forward(3, 0.3);
+        movementRL(robotMotion.right, 90, 0.3);
+
+
+
+
+        // SAMPLE
+
+
+
+
+        // MOVE BACK - - here you would pick up sample
+
+        movementRL(robotMotion.right, 45, 0.3);
+        forward(13, 0.3);
+        backward(12, 0.3);
+        movementRL(robotMotion.right, 45, 0.3);
+        forward(5, 0.3);
+        movementRL(robotMotion.right, 90, 0.3);
+        // MOVE BACK - FOR TESTING - here you would pick up sample
+
+
+
+
+
+
+        // lift arm
+        // drop into high basket
+
+
+
+
+
+
+        // 2 High
+        // 1 Low
+        // 1 Net
+
+        // 24 in x 24 in
 
 
     }
