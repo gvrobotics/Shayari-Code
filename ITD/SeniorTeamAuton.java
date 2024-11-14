@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous
-public class Auton_SS extends LinearOpMode
+public class SeniorTeamAuton extends LinearOpMode
 {
     public DcMotor BR, BL, FR, FL;
 
