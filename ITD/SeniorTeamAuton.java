@@ -2,12 +2,17 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous
 public class SeniorTeamAuton extends LinearOpMode
 {
-    public DcMotor BR, BL, FR, FL;
+    public DcMotor FR, FL, BR, BL, Slides1, Slides2;
+    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
+    public CRServo Roller;
+    public Servo Elbow1, Elbow2, EWrist1, EWrist2, TopWrist;
 
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
@@ -43,8 +48,7 @@ public class SeniorTeamAuton extends LinearOpMode
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
-        //Arm0.setDirection() (tbd)
-        //Arm1.setDirection()
+
 
 
         // set mode
@@ -59,25 +63,18 @@ public class SeniorTeamAuton extends LinearOpMode
 
 
 
-        // Arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        // Arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-
-
 
         // set initial power/position
         FR.setPower(0);
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-        // Arm0.setPower(0);
-        // Arm1.setPower(0);
-
-
-        /* AUTON - JUST MOVING FORWARD */
-        waitForStart();
 
         // Each square is 24x24
+        waitForStart();
+
+
+        // FOR SCRIMMAGE
 
         // PRELOADED SAMPLE
         forward(4, 0.3);
@@ -86,53 +83,115 @@ public class SeniorTeamAuton extends LinearOpMode
         sleep(1000);
         forward(3, 0.3);
         sleep(1000);
-        backward(6, 0.3);
+
+        // TO SAMPLE #1
+        backward(5, 0.3);
         sleep(1000);
+        movementRL(robotMotion.right, 45, 0.1);
+        sleep(1000);
+        forward(4, 0.3);
+        sleep(1000);
+        movementRL(robotMotion.right, 90, 0.1);
+        forward(15, 0.3);
 
-        // SAMPLE #1
-//        movementRL(robotMotion.left, 45, 0.1);
+        // PUT INTO LOOP LATER
+
+        // PICK UP SAMPLE #1
+        Roller.setPower(0.5);
+
+//        backward(5, 0.3);
+//        sleep(1000);
+//        movementRL(robotMotion.left, 90, 0.1);
+//        sleep(1000);
+//        forward(3, 0.3);
+//        sleep(1000);
+//        movementRL(robotMotion.left, 90, 0.1);
+//        sleep(1000);
+//        forward(10, 0.3);
+//        sleep(1000);
+//        movementRL(robotMotion.left, 90, 0.1); // test
+//        sleep(1000);
+//        movementRL(robotMotion.left, 45, 0.1); // test
+//        sleep(1000);
+//        forward(8, 0.3);
+
+        // DEPOSIT SAMPLE #1 - control wrist, slides
+//        EWrist1.setPosition();
+//        EWrist2.setPosition();
+//        Slides1.setPower(-1.4);
+//        Slides2.setPower(-1.4);
+//        TopWrist.setPosition();
+//        EWrist1.setPosition();
+//        EWrist2.setPosition();
+//        Slides1.setPower(0.85);
+//        Slides2.setPower(0.85);
+
+        // TO SAMPLE #2
+//        backward(12, 0.3);
+//        sleep(1000);
+//        movementRL(robotMotion.right, 45, 0.1);
+//        sleep(1000);
+//        forward(2, 0.3);
+//        sleep(1000);
+//        movementRL(robotMotion.right, 90, 0.1);
 //        forward(15, 0.3);
-//        sleep(1000); // PUT SAMPLE IN HIGH BASKET
-//        backward(6, 0.3);
+
+        // PICK UP SAMPLE #2
+//        Roller.setPower(0.5);
+
+
+        // TO SAMPLE #2
+//        backward(5, 0.3);
+//        sleep(1000);
 //        movementRL(robotMotion.left, 90, 0.1);
-//        forward(6, 0.3);
+//        sleep(1000);
+//        forward(2, 0.3);
+//        sleep(1000);
 //        movementRL(robotMotion.left, 90, 0.1);
-//        forward(6, 0.3);
-//        sleep(1000); // PUT SAMPLE IN HIGH BASKET
+//        forward(15, 0.3);
+//        sleep(1000);
+//        movementRL(robotMotion.left, 90, 0.1); // test
+//        sleep(1000);
+//        movementRL(robotMotion.left, 45, 0.1); // test
+//        sleep(1000);
+//        forward(8, 0.3);
+//        sleep(1000);
+
+        // DEPOSIT SAMPLE #2 - control wrist, slides
+//        EWrist1.setPosition(0);
+//        EWrist2.setPosition(0);
+//        Slides1.setPower(-1.4);
+//        Slides2.setPower(-1.4);
+//        TopWrist.setPosition();
+//        EWrist1.setPosition(0);
+//        EWrist2.setPosition(0);
+//        Slides1.setPower(0.85);
+//        Slides2.setPower(0.85);
+
+        // TO SAMPLE #3
 //        backward(6, 0.3);
+//        movementRL(robotMotion.right, 45, 0.1); // test
+//        forward(3, 0.3);
+//        movementRL(robotMotion.right, 90, 0.1); // test
+//        forward(8, 0.3);
 
-        // SAMPLE #2
-//        movementRL(robotMotion.right, 90,0.1);
-//        forward(4, 0.3);
-//        movementRL(robotMotion.left, 90,0.1);
-//        forward(4, 0.3);
-//        sleep(1000);PUT SAMPLE IN HIGH BASKET
-//        backward(6, 0.3);
-//        movementRL(robotMotion.left, 90,0.1);
-//        forward(4, 0.3);
-//        movementRL(robotMotion.left, 90,0.1);
-//        forward(4, 0.3);
-//        sleep(1000); // PUT SAMPLE IN HIGH BASKET
-//        backward(6, 0.3);
+        // PICK UP SAMPLE #3
+//        Roller.setPower(0.5);
 
-        // SAMPLE #3
-        // PUT LAST SAMPLE IN NET ZONE
+//        backward(2, 0.3);
+//        movementRL(robotMotion.left, 90, 0.1); // test
+//        forward(15, 0.3);
 
-
-        // lift arm
-        // drop into high basket
-
-
-
-
-
-
-        // 2 High
-        // 1 Low
-        // 1 Net
-
-        // 24 in x 24 in
-
+        // DEPOSIT SAMPLE #3
+//        EWrist1.setPosition(0);
+//        EWrist2.setPosition(0);
+//        Slides1.setPower(-1.4);
+//        Slides2.setPower(-1.4);
+//        TopWrist.setPosition();
+//        EWrist1.setPosition(0);
+//        EWrist2.setPosition(0);
+//        Slides1.setPower(0.85);
+//        Slides2.setPower(0.85);
 
     }
 
