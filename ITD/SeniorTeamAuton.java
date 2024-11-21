@@ -16,7 +16,7 @@ public class SeniorTeamAuton extends LinearOpMode
 
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
-
+    
     // TEST THESE VALUES!!
     double cpi = 7; // cycles per inch
     double cpd = 3.7; // clicks per degree
