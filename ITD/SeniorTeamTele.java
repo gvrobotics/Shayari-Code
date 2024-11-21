@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class SeniorTeamTele extends OpMode
 {
     public DcMotor FR, FL, BR, BL, Slides1, Slides2;
-    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb, clockwise, counterclockwise;
+    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
     public CRServo Roller;
     public Servo Elbow1, Elbow2, EWrist1, EWrist2, TopWrist;
 
@@ -128,7 +128,6 @@ public class SeniorTeamTele extends OpMode
         {
             // adjust position
             //EWrist1.setPosition();
-            //EWrist1.setPosition();
 
             Slides1.setPower(-1.4);
             Slides2.setPower(-1.4);
@@ -137,37 +136,42 @@ public class SeniorTeamTele extends OpMode
         if (gamepad2.dpad_down)
         {
             // adjust position
-            //EWrist1.setPosition();
-            //EWrist1.setPosition();
+            //TopWrist.setPosition();
 
             Slides1.setPower(0.85);
             Slides2.setPower(0.85);
+
+            //EWrist1.setPosition();
         }
 
-        /* TEST AND GET VALUES - START */
+        // ISSUES WITH ELBOW - wifi? telemetry glitch?
 
-        if (gamepad2.a)
+        if (gamepad2.dpad_left)
         {
-            // adjust position
-            //TopWrist.setPosition();
+            Elbow1.setPosition(0.3);
+            Elbow2.setPosition(0);
+
         }
 
-        // FOR ADJUSTING TOP WRIST
+        if (gamepad2.dpad_right)
+        {
+            Elbow1.setPosition(0);
+            Elbow2.setPosition(0.3);
+
+        }
+
+        // Top Wrist not using gamepad2?
         if (gamepad1.a)
         {
-            // adjust position by 0.08
-            // clockwise = TopWrist.getPosition() + 0.08;
-            // TopWrist.setPosition(clockwise);
+            // adjust position
+            TopWrist.setPosition(TopWrist.getPosition() + 0.08);
         }
 
         if (gamepad1.y)
         {
             // adjust position by 0.08
-            // counterclockwise = TopWrist.getPosition() - 0.08;
-            //TopWrist.setPosition(counterclockwise);
+            TopWrist.setPosition(TopWrist.getPosition() - 0.08);
         }
-
-        /* TEST AND GET VALUES - END */
 
 
         // Roller - take in specimen/sample
@@ -194,8 +198,8 @@ public class SeniorTeamTele extends OpMode
         if (gamepad2.right_bumper)
         {
             // max power
-            Slides1.setPower(1);
-            Slides2.setPower(1);
+            Slides1.setPower(0.9);
+            Slides2.setPower(0.9);
         }
 
 
