@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class SeniorTeamTele extends OpMode
 {
     public DcMotor FR, FL, BR, BL, Slides1, Slides2;
-    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
+    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb, clockwise, counterclockwise;
     public CRServo Roller;
     public Servo Elbow1, Elbow2, EWrist1, EWrist2, TopWrist;
 
@@ -83,7 +83,7 @@ public class SeniorTeamTele extends OpMode
         powerRY = gamepad1.right_stick_y/2;
 
         robotAngle = Math.atan2(powerLX, powerLY);
-        
+
         // All telemetry
         telemetry.addData("Robot angle:", robotAngle);
         telemetry.addData("powerRX: ", gamepad1.right_stick_x);
@@ -95,7 +95,7 @@ public class SeniorTeamTele extends OpMode
         telemetry.addData("FL: ", FL.getPower());
         telemetry.addData("BR: ", BR.getPower());
         telemetry.addData("BL: ", BL.getPower());
-        
+
         telemetry.addData("Slides1: ", Slides1.getPower());
         telemetry.addData("Slides2: ", Slides2.getPower());
 
@@ -104,9 +104,9 @@ public class SeniorTeamTele extends OpMode
         telemetry.addData("EWrist1: ", EWrist1.getPosition());
         telemetry.addData("EWrist2: ", EWrist2.getPosition());
         telemetry.addData("TopWrist: ", TopWrist.getPosition());
-        
+
         telemetry.addData("Roller: ", Roller.getPower());
-        
+
 
         telemetry.update();
 
@@ -144,11 +144,31 @@ public class SeniorTeamTele extends OpMode
             Slides2.setPower(0.85);
         }
 
+        /* TEST AND GET VALUES - START */
+
         if (gamepad2.a)
         {
             // adjust position
             //TopWrist.setPosition();
         }
+
+        // FOR ADJUSTING TOP WRIST
+        if (gamepad1.a)
+        {
+            // adjust position by 0.08
+            // clockwise = TopWrist.getPosition() + 0.08;
+            // TopWrist.setPosition(clockwise);
+        }
+
+        if (gamepad1.y)
+        {
+            // adjust position by 0.08
+            // counterclockwise = TopWrist.getPosition() - 0.08;
+            //TopWrist.setPosition(counterclockwise);
+        }
+
+        /* TEST AND GET VALUES - END */
+
 
         // Roller - take in specimen/sample
         if (gamepad2.x)
