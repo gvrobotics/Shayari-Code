@@ -1,3 +1,6 @@
+// THIS IS ONLY REFERENCE CODE FOR CPD/ACPI/CPI. PLEASE DISREGARD MOTOR NAMES AND DIRECTIONS!!
+// ISHAN'S CODE
+
 package org.firstinspires.ftc.teamcode;
 
 import java.lang.Math;
