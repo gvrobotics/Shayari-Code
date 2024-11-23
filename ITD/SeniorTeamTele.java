@@ -3,75 +3,67 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
+// UPDATED 
 
 @TeleOp
 public class SeniorTeamTele extends OpMode
 {
     public DcMotor FR, FL, BR, BL, Slides1, Slides2;
-    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
+    public Servo Elbow1, Elbow2;
+    public Servo TopWrist, EWrist1, Wrist;
     public CRServo Roller;
-    public Servo Elbow1, Elbow2, EWrist1, EWrist2, TopWrist;
+    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
+
+    double cpd = 3.7;
 
     @Override
     public void init()
     {
-        // Wheels
         FR = hardwareMap.get(DcMotor.class, "FR");
         FL = hardwareMap.get(DcMotor.class, "FL");
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
-
-        // Slides
         Slides1 = hardwareMap.get(DcMotor.class, "Slides1");
         Slides2 = hardwareMap.get(DcMotor.class, "Slides2");
-
-        // Elbow
         Elbow1 = hardwareMap.get(Servo.class, "Elbow1");
         Elbow2 = hardwareMap.get(Servo.class, "Elbow2");
-
-        // Wrist at Elbow
-        // VERIFY
-        EWrist1 = hardwareMap.get(Servo.class, "EWrist1");
-        EWrist2 = hardwareMap.get(Servo.class, "EWrist2");
-
-        // Wrist at Top
-        TopWrist = hardwareMap.get(Servo.class, "TopWrist");
-
-        // Roller
         Roller = hardwareMap.get(CRServo.class, "Roller");
+       //  TopWrist = hardwareMap.get(Servo.class, "TopWrist");
+        // EWrist1 = hardwareMap.get(Servo.class, "EWrist1");
+        Wrist = hardwareMap.get(Servo.class, "Wrist");
 
-        // Wheels Set-Up
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
-        FL.setDirection(DcMotorSimple.Direction.REVERSE);
+        FL.setDirection(DcMotorSimple.Direction.FORWARD);
+
+
+        Slides1.setDirection(DcMotorSimple.Direction.FORWARD);
+        Slides2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        // Slides Set-Up
-        Slides1.setDirection(DcMotorSimple.Direction.FORWARD);
-        Slides2.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        // Set Powers
         FR.setPower(0);
         FL.setPower(0);
         BR.setPower(0);
         BL.setPower(0);
-
-        Elbow1.setPosition(0);
+        Slides1.setPower(0);
+        Slides2.setPower(0);
+        //EWrist1.setPosition(0.7);
+        Wrist.setPosition(0);
+        Roller.setPower(0);
+       // TopWrist.setPosition(0);
+        Elbow1.setPosition(1);
         Elbow2.setPosition(0);
 
-        EWrist1.setPosition(0);
-        EWrist2.setPosition(0);
-        TopWrist.setPosition(0);
-
-        Roller.setPower(0);
+        //elbow1 and elbow2 are continous servos
+        //left servo is 0 and right servo is -0.5
     }
 
     @Override
@@ -83,8 +75,6 @@ public class SeniorTeamTele extends OpMode
         powerRY = gamepad1.right_stick_y/2;
 
         robotAngle = Math.atan2(powerLX, powerLY);
-
-        // All telemetry
         telemetry.addData("Robot angle:", robotAngle);
         telemetry.addData("powerRX: ", gamepad1.right_stick_x);
         telemetry.addData("powerRY: ", gamepad1.right_stick_y);
@@ -95,19 +85,6 @@ public class SeniorTeamTele extends OpMode
         telemetry.addData("FL: ", FL.getPower());
         telemetry.addData("BR: ", BR.getPower());
         telemetry.addData("BL: ", BL.getPower());
-
-        telemetry.addData("Slides1: ", Slides1.getPower());
-        telemetry.addData("Slides2: ", Slides2.getPower());
-
-        telemetry.addData("Elbow1: ", Elbow1.getPosition());
-        telemetry.addData("Elbow2: ", Elbow2.getPosition());
-        telemetry.addData("EWrist1: ", EWrist1.getPosition());
-        telemetry.addData("EWrist2: ", EWrist2.getPosition());
-        telemetry.addData("TopWrist: ", TopWrist.getPosition());
-
-        telemetry.addData("Roller: ", Roller.getPower());
-
-
         telemetry.update();
 
 
@@ -120,87 +97,108 @@ public class SeniorTeamTele extends OpMode
 
         FR.setPower(rf);
         FL.setPower(lf);
+
         BR.setPower(rb);
         BL.setPower(lb);
 
-        // Slides to lift bucket
-        if (gamepad2.dpad_up)
-        {
-            // adjust position
-            //EWrist1.setPosition();
+        // EWrist1 (right) - port 0 of control hub
+        // EWrist2 (left) - port 1 of expansion
 
-            Slides1.setPower(-1.4);
-            Slides2.setPower(-1.4);
+        if(gamepad2.y){
+            Wrist.setPosition(1);
+            // EWrist1.setPosition(0);
+            /*Slides1.setPower(-1.4);
+            Slides2.setPower(-1.4); */
+        }
+        if(gamepad2.a){
+            Wrist.setPosition(0.3);
+            //TopWrist.setPosition(initial_position);
+            //Slides1.setPower(0.85);
+            //Slides2.setPower(0.85);
+            //EWrist1.setPosition(0.7);
+
 
         }
-        if (gamepad2.dpad_down)
-        {
-            // adjust position
-            //TopWrist.setPosition();
-
-            Slides1.setPower(0.85);
-            Slides2.setPower(0.85);
-
-            //EWrist1.setPosition();
-        }
-
-        // ISSUES WITH ELBOW - wifi? telemetry glitch?
-
-        if (gamepad2.dpad_left)
-        {
-            Elbow1.setPosition(0.3);
+        if(gamepad2.dpad_left){
+            Elbow1.setPosition(1);
             Elbow2.setPosition(0);
-
         }
-
-        if (gamepad2.dpad_right)
-        {
+        if(gamepad2.dpad_right){
             Elbow1.setPosition(0);
-            Elbow2.setPosition(0.3);
-
-        }
-
-        // Top Wrist not using gamepad2?
-        if (gamepad1.a)
-        {
-            // adjust position
-            TopWrist.setPosition(TopWrist.getPosition() + 0.08);
-        }
-
-        if (gamepad1.y)
-        {
-            // adjust position by 0.08
-            TopWrist.setPosition(TopWrist.getPosition() - 0.08);
+            Elbow2.setPosition(1);
+            Wrist.setPosition(0);
         }
 
 
-        // Roller - take in specimen/sample
-        if (gamepad2.x)
+//        if(gamepad1.a){
+//         //   TopWrist.setPosition(TopWrist.getPosition() + 0.08);
+//        }
+//        if(gamepad1.y){
+//          //  TopWrist.setPosition(TopWrist.getPosition() - 0.08);
+//        }
+
+//        if(gamepad2.x){
+//            Roller.setPower(0.5);
+//        }
+//        if(gamepad2.y){
+//            Roller.setPower(0);
+//        }
+//        if(gamepad2.b){
+//            Roller.setPower(-1);
+//        }
+
+        if (gamepad2.left_trigger > 0.5)
         {
             Roller.setPower(0.5);
+
         }
-        if (gamepad2.b)
+        else if (gamepad2.right_trigger > 0.5)
         {
-            Roller.setPower(-1.0);
+            Roller.setPower(-1);
         }
-        if (gamepad2.y)
-        {
+        else {
             Roller.setPower(0);
         }
 
-        // Rigging
-        if (gamepad2.left_bumper)
-        {
-            // stop
+
+        if(gamepad1.left_bumper){
             Slides1.setPower(0);
             Slides2.setPower(0);
         }
-        if (gamepad2.right_bumper)
-        {
-            // max power
+        if(gamepad1.right_bumper){
             Slides1.setPower(0.9);
             Slides2.setPower(0.9);
         }
+
+        telemetry.addData("Robot angle:", robotAngle);
+        telemetry.addData("powerRX: ", gamepad1.right_stick_x);
+        telemetry.addData("powerRY: ", gamepad1.right_stick_y);
+        telemetry.addData("powerLX: ", gamepad1.left_stick_x);
+        telemetry.addData("powerLY: ", gamepad1.left_stick_y);
+
+
+        telemetry.addData("FR: ", FR.getPower());
+        telemetry.addData("FL: ", FL.getPower());
+        telemetry.addData("BR: ", BR.getPower());
+        telemetry.addData("BL: ", BL.getPower());
+        telemetry.addData("Roller: ", Roller.getPower());
+
+        telemetry.addData("Slides1: ", Slides1.getPower());
+        telemetry.addData("Slides2: ", Slides2.getPower());
+
+
+        telemetry.addData("Elbow1: ", Elbow1.getPosition());
+        telemetry.addData("Elbow2: ", Elbow2.getPosition());
+        // telemetry.addData("EWrist1: ", EWrist1.getPosition());
+        telemetry.addData("Wrist: ", Wrist.getPosition());
+       // telemetry.addData("TopWrist: ", TopWrist.getPosition());
+
+
+
+
+
+        telemetry.update();
+
 
 
 
