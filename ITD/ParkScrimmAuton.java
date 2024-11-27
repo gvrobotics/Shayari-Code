@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+// WE WILL TEST TOMORROW
+
 @Autonomous
 public class ParkScrimmAuton extends LinearOpMode
 {
