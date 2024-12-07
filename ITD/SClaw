@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 @TeleOp
 public class SeniorTeamTele extends OpMode
 {
-//    public DcMotor FR, FL, BR, BL, Slides1, Slides2;
+    //    public DcMotor FR, FL, BR, BL, Slides1, Slides2;
 //    public Servo Elbow1, Elbow2;
     public Servo SClaw;
 //    public CRServo Roller;
@@ -46,7 +46,7 @@ public class SeniorTeamTele extends OpMode
 
         //test, may remove
 //        TopWrist.setDirection(Servo.Direction.REVERSE);
-        SClaw.setDirection(Servo.Direction.REVERSE);
+//        SClaw.setDirection(Servo.Direction.REVERSE);
 
 
 
@@ -64,7 +64,7 @@ public class SeniorTeamTele extends OpMode
         //EWrist1.setPosition(0.7);
 //        Wrist.setPosition(0);
 //        Roller.setPower(0);
-        SClaw.setPosition(0.6);
+        SClaw.setPosition(0.9);
 //        TopWrist.setPosition(-1);
 //        Elbow1.setPosition(1);
 //        Elbow2.setPosition(0);
@@ -141,7 +141,7 @@ public class SeniorTeamTele extends OpMode
         } */
 
         if(gamepad2.b){
-            SClaw.setPosition(0);
+            SClaw.setPosition(0.7);
         }
 
 
