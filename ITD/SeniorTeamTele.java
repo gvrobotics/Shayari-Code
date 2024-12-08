@@ -11,7 +11,7 @@ public class SeniorTeamTele extends OpMode
 {
     public DcMotor FR, FL, BR, BL, Slides1, Slides2;
     public Servo Elbow1, Elbow2;
-    public Servo TopWrist, EWrist1, Wrist;
+    public Servo EWrist1, Wrist, SClaw;
     public CRServo Roller;
     private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
 
@@ -29,9 +29,9 @@ public class SeniorTeamTele extends OpMode
         Elbow1 = hardwareMap.get(Servo.class, "Elbow1");
         Elbow2 = hardwareMap.get(Servo.class, "Elbow2");
         Roller = hardwareMap.get(CRServo.class, "Roller");
-        TopWrist = hardwareMap.get(Servo.class, "TopWrist");
         // EWrist1 = hardwareMap.get(Servo.class, "EWrist1");
         Wrist = hardwareMap.get(Servo.class, "Wrist");
+        SClaw = hardwareMap.get(Servo.class, "SClaw");
 
         BR.setDirection(DcMotorSimple.Direction.FORWARD);
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -41,10 +41,7 @@ public class SeniorTeamTele extends OpMode
 
         Slides1.setDirection(DcMotorSimple.Direction.FORWARD);
         Slides2.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        //test, may remove
-        TopWrist.setDirection(Servo.Direction.REVERSE);
-
+        
 
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -57,10 +54,10 @@ public class SeniorTeamTele extends OpMode
         BL.setPower(0);
         Slides1.setPower(0);
         Slides2.setPower(0);
-        //EWrist1.setPosition(0.7);
+//        EWrist1.setPosition(0.7);
         Wrist.setPosition(0);
         Roller.setPower(0);
-        TopWrist.setPosition(-1);
+        SClaw.setPosition(0.9);
         Elbow1.setPosition(1);
         Elbow2.setPosition(0);
 
@@ -103,8 +100,9 @@ public class SeniorTeamTele extends OpMode
         BR.setPower(rb);
         BL.setPower(lb);
 
-        // EWrist1 (right) - port 0 of control hub
-        // EWrist2 (left) - port 1 of expansion
+
+//         EWrist1 (right) - port 0 of control hub
+//         EWrist2 (left) - port 1 of expansion
 
         if(gamepad2.y){
             Wrist.setPosition(1);
@@ -136,21 +134,19 @@ public class SeniorTeamTele extends OpMode
         } */
 
         if(gamepad2.b){
-            TopWrist.setPosition(TopWrist.getPosition() + 0.08);
-        }
-        if(gamepad2.x){
-            TopWrist.setPosition(TopWrist.getPosition() - 0.08);
+            SClaw.setPosition(0.7);
         }
 
-//        if(gamepad2.x){
-//            Roller.setPower(0.5);
-//        }
-//        if(gamepad2.y){
-//            Roller.setPower(0);
-//        }
-//        if(gamepad2.b){
-//            Roller.setPower(-1);
-//        }
+
+        if(gamepad2.x){
+            Roller.setPower(0.5);
+        }
+        if(gamepad2.y){
+            Roller.setPower(0);
+        }
+        if(gamepad2.b){
+            Roller.setPower(-1);
+        }
 
         if (gamepad2.left_trigger > 0.5)
         {
@@ -175,13 +171,14 @@ public class SeniorTeamTele extends OpMode
 //            Slides2.setPower(0.9);
 //        }
 
+
         if(gamepad2.dpad_down){
             Slides1.setPower(-0.55);
             Slides2.setPower(0.55);
         }
 
         if(gamepad2.dpad_up){
-        Slides1.setPower(0.55);
+            Slides1.setPower(0.55);
             Slides2.setPower(-0.55);
         }
 
@@ -205,13 +202,9 @@ public class SeniorTeamTele extends OpMode
 
         telemetry.addData("Elbow1: ", Elbow1.getPosition());
         telemetry.addData("Elbow2: ", Elbow2.getPosition());
-        // telemetry.addData("EWrist1: ", EWrist1.getPosition());
+         telemetry.addData("EWrist1: ", EWrist1.getPosition());
         telemetry.addData("Wrist: ", Wrist.getPosition());
-        telemetry.addData("TopWrist: ", TopWrist.getPosition());
-        telemetry.addData("TopWrist: ", TopWrist.getDirection());
-
-
-
+        telemetry.addData("SClaw: ", SClaw.getPosition());
 
 
         telemetry.update();
