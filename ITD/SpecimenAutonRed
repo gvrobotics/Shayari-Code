@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 // WE WILL TEST TOMORROW
 
 @Autonomous
-public class SpecimenAutonRed extends LinearOpMode
+public class SpecimenAuton extends LinearOpMode
 {
     public DcMotor FR, FL, BR, BL, Slides1, Slides2;
     public Servo Elbow1, Elbow2;
@@ -84,7 +84,7 @@ public class SpecimenAutonRed extends LinearOpMode
         // Each square is 24x24
         waitForStart();
 
-        // RED OBSERVATION
+        // RED/BLUE OBSERVATION
         forward(20, 0.3);
         strafe(robotStrafe.strafeRight, 40, 0.1);
         forward(30, 0.3);
@@ -99,7 +99,7 @@ public class SpecimenAutonRed extends LinearOpMode
         backward(40, 0.3); // push "sample" into parking
         strafe(robotStrafe.strafeLeft, 4, 0.1);
         backward(2, 0.3); // PARK
-        
+
 
 
 
