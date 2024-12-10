@@ -10,12 +10,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 // WE WILL TEST TOMORROW
 
 @Autonomous
-public class SpecimenAuton extends LinearOpMode
+public class SpecimenAutonRed extends LinearOpMode
 {
     public DcMotor FR, FL, BR, BL, Slides1, Slides2;
-    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
+    public Servo Elbow1, Elbow2;
+    public Servo EWrist1, Wrist, SClaw;
     public CRServo Roller;
-    public Servo Elbow1, Elbow2, EWrist1, Wrist, TopWrist;
+    private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
+
 
     //CPI is calculated by ((Clicks of Encoders per revolution)/(diameter*pi)
     //Clicks of Encoders per revolution may change based off of different model types
@@ -43,11 +45,18 @@ public class SpecimenAuton extends LinearOpMode
 
 
         // hardware map
-        BR = hardwareMap.get(DcMotor.class, "BR");
-        BL = hardwareMap.get(DcMotor.class, "BL");
         FR = hardwareMap.get(DcMotor.class, "FR");
         FL = hardwareMap.get(DcMotor.class, "FL");
-        //Arm = hardwareMap.get(DcMotor.class, "Arm");
+        BR = hardwareMap.get(DcMotor.class, "BR");
+        BL = hardwareMap.get(DcMotor.class, "BL");
+        Slides1 = hardwareMap.get(DcMotor.class, "Slides1");
+        Slides2 = hardwareMap.get(DcMotor.class, "Slides2");
+        Elbow1 = hardwareMap.get(Servo.class, "Elbow1");
+        Elbow2 = hardwareMap.get(Servo.class, "Elbow2");
+        Roller = hardwareMap.get(CRServo.class, "Roller");
+        // EWrist1 = hardwareMap.get(Servo.class, "EWrist1");
+        Wrist = hardwareMap.get(Servo.class, "Wrist");
+        SClaw = hardwareMap.get(Servo.class, "SClaw");
 
 
         // set direction - do not change
@@ -55,8 +64,6 @@ public class SpecimenAuton extends LinearOpMode
         BL.setDirection(DcMotorSimple.Direction.REVERSE);
         FR.setDirection(DcMotorSimple.Direction.FORWARD);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
 
         // set mode
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -77,30 +84,32 @@ public class SpecimenAuton extends LinearOpMode
         // Each square is 24x24
         waitForStart();
 
-        forward(26, 0.2);
+        // RED OBSERVATION
+        forward(20, 0.3);
+        strafe(robotStrafe.strafeRight, 40, 0.1);
+        forward(30, 0.3);
 
-        // HANG SPECIMEN
-        // wait
+        strafe(robotStrafe.strafeRight, 6, 0.1);
+        backward(40, 0.3); // push "sample" into parking
+        forward(40, 0.3);
+        strafe(robotStrafe.strafeRight, 12, 0.1);
+        backward(40, 0.3); // push "sample" into parking
+        forward(40, 0.3);
+        strafe(robotStrafe.strafeRight, 12, 0.1);
+        backward(40, 0.3); // push "sample" into parking
+        strafe(robotStrafe.strafeLeft, 4, 0.1);
+        backward(2, 0.3); // PARK
+        
 
-        backward(20, 0.2);
-        movementRL(robotMotion.right, 90, 0.1);
 
-        forward(50, 0.2);
-        movementRL(robotMotion.left, 90, 0.1);
 
-        backward(4, 0.2);
 
-        // PICK UP SPECIMEN
-        // wait
-        forward(3, 0.2);
 
-        movementRL(robotMotion.left, 90, 0.1);
-        forward(48, 0.2);
 
-        movementRL(robotMotion.left, 90, 0.1);
-        backward(4, 0.2);
 
-        // HANG SPECIMEN
+
+
+
 
 
 
@@ -325,15 +334,15 @@ public class SpecimenAuton extends LinearOpMode
 
     }
 
-    private void strafe(robotStrafe action, double degree,  double power)
+    private void strafe(robotStrafe action, double inches,  double power)
     {
         if (action == robotStrafe.strafeLeft)
         {
             // FR and BL same
-            FL.setTargetPosition((int) (FL.getCurrentPosition() + (degree * cpd)));
-            FR.setTargetPosition((int) (FR.getCurrentPosition() - (degree * cpd)));
-            BL.setTargetPosition((int) (BL.getCurrentPosition() - (degree * cpd)));
-            BR.setTargetPosition((int) (BR.getCurrentPosition() + (degree * cpd)));
+            FL.setTargetPosition((int) (FL.getCurrentPosition() + (inches * cpi)));
+            FR.setTargetPosition((int) (FR.getCurrentPosition() - (inches * cpi)));
+            BL.setTargetPosition((int) (BL.getCurrentPosition() - (inches * cpi)));
+            BR.setTargetPosition((int) (BR.getCurrentPosition() + (inches * cpi)));
 
 
             // sets desired power for motors
@@ -372,10 +381,10 @@ public class SpecimenAuton extends LinearOpMode
             // FL and BR same
 
             // left is moving backwards, right is moving forwards
-            FL.setTargetPosition((int) (FL.getCurrentPosition() - (degree * cpd)));
-            FR.setTargetPosition((int) (FR.getCurrentPosition() + (degree * cpd)));
-            BL.setTargetPosition((int) (BL.getCurrentPosition() + (degree * cpd)));
-            BR.setTargetPosition((int) (BR.getCurrentPosition() - (degree * cpd)));
+            FL.setTargetPosition((int) (FL.getCurrentPosition() - (inches * cpi)));
+            FR.setTargetPosition((int) (FR.getCurrentPosition() + (inches * cpi)));
+            BL.setTargetPosition((int) (BL.getCurrentPosition() + (inches * cpi)));
+            BR.setTargetPosition((int) (BR.getCurrentPosition() - (inches * cpi)));
 
 
             // sets desired power for motors
