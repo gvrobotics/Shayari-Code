@@ -131,6 +131,8 @@ public class SeniorTeamTele extends OpMode
         {
             Slides1.setPower(0);
             Slides2.setPower(0);
+
+
         }
 
         // slides up
@@ -139,6 +141,7 @@ public class SeniorTeamTele extends OpMode
             // doesn't go exactly 5 inches - try adjusting cpi + encoder wire disconnected
 
             linearup(5, 0.3);
+            // wrist set position
 
             // backup code if encoder malfunctions
             // Slides1.setPower(0.3);
@@ -152,6 +155,7 @@ public class SeniorTeamTele extends OpMode
         if(gamepad2.dpad_down){
 
             lineardown(4, 0.1);
+            // wrist set position
 
             // backup code if encoder malfunctions
             // Slides1.setPower(-0.1);
@@ -162,7 +166,7 @@ public class SeniorTeamTele extends OpMode
 
         // pull IN elbow + wrist for intake + close claw
         if(gamepad2.dpad_left){
-            FClaw.setPosition(0);
+            // FClaw.setPosition(0);
             Elbow1.setPosition(0.9);
             Elbow2.setPosition(0);
             Wrist.setPosition(0.35);
@@ -171,22 +175,33 @@ public class SeniorTeamTele extends OpMode
         // pull OUT elbow + wrist for intake + open claw
         // open claw spits out block so revise
         if(gamepad2.dpad_right){
-            FClaw.setPosition(0.7);
             Elbow1.setPosition(0.7);
-            Elbow2.setPosition(0.3);
-            Wrist.setPosition(0.95);
+            Elbow2.setPosition(0.2);
+            Wrist.setPosition(0.7);
+        }
+        if(gamepad2.right_bumper){
+            Wrist.setPosition(0.9);
         }
 
-        // open SClaw
+        if (gamepad2.right_trigger > 0.5)
+        {
+            FClaw.setPosition(0.3);
+        }
+
+        if (gamepad2.left_trigger > 0.5)
+        {
+            FClaw.setPosition(0.7);
+        }
+
+
         if (gamepad2.x)
         {
-           SClaw.setPosition(0.8);
+            SClaw.setPosition(0.69);
         }
 
-        // close SClaw
-        if (gamepad2.y)
+        if (gamepad2.b)
         {
-            SClaw.setPosition(0.69);
+            SClaw.setPosition(0.8);
         }
 
         telemetry.addData("FR Power: ", FR.getPower());
