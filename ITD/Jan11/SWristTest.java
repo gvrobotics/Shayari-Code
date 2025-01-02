@@ -88,7 +88,7 @@ public class SWristTest extends OpMode
 
         if (gamepad2.right_bumper)
         {
-            SWrist1.setPosition(0.05);
+            SWrist1.setPosition(0.1);
         }
 
     }
