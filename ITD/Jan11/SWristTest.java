@@ -75,8 +75,13 @@ public class SWristTest extends OpMode
         Elbow2.setPosition(0);
         // SClaw works with 0.69/0.7
         SClaw.setPosition(0.69);
-        SWrist1.setPosition(0);
-        SWrist2.setPosition(0);
+
+        // spin 90 degrees upward
+//        SWrist1.setPosition(0.65);
+//        SWrist2.setPosition(0.65);
+
+        SWrist1.setPosition(1);
+        SWrist2.setPosition(1);
 
         // 0.2, 0 spins all the way around
 
@@ -84,13 +89,6 @@ public class SWristTest extends OpMode
 
     @Override
     public void loop() {
-
-
-        if (gamepad2.right_bumper)
-        {
-            SWrist1.setPosition(0.1);
-        }
-
     }
 
 
