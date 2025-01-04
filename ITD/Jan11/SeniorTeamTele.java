@@ -51,9 +51,9 @@ public class SeniorTeamTele extends OpMode
         SClaw.setDirection(Servo.Direction.FORWARD);
         // set directions for FClaw, SWrist1, SWrist2
 
-        // SWrist1 and SWrist2 must be opposite directions!! - to test
-//        SWrist1.setDirection(Servo.Direction.FORWARD);
-//        SWrist2.setDirection(Servo.Direction.REVERSE);
+        // SWrist1 and SWrist2 must be opposite directions!!
+        SWrist1.setDirection(Servo.Direction.FORWARD);
+        SWrist2.setDirection(Servo.Direction.REVERSE);
 
         BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -70,16 +70,16 @@ public class SeniorTeamTele extends OpMode
         Slides2.setPower(0);
         Wrist.setPosition(0.3);
         FClaw.setPosition(0.7);
+
         // SClaw works with 0.69/0.7
         SClaw.setPosition(0.69);
         Elbow1.setPosition(0.9);
         Elbow2.setPosition(0);
 
 
-//        SWrist1.setPosition(0);
-//        SWrist2.setPosition(-0);
+        SWrist1.setPosition(1);
+        SWrist2.setPosition(1);
 
-        // SWrist1, SWrist2 need to be initialized
     }
 
     @Override
@@ -138,14 +138,17 @@ public class SeniorTeamTele extends OpMode
         // slides up
         if(gamepad2.dpad_up){
 
-            // doesn't go exactly 5 inches - try adjusting cpi + encoder wire disconnected
+            // doesn't go exactly 5 inches - try adjusting cpi
 
-            linearup(5, 0.3);
+            linearup(5, 0.5);
+
             // wrist set position
+            SWrist1.setPosition(0.65);
+            SWrist2.setPosition(0.65);
 
             // backup code if encoder malfunctions
-            // Slides1.setPower(0.3);
-            // Slides2.setPower(0.3);
+            // Slides1.setPower(0.5);
+            // Slides2.setPower(0.5);
 
         }
 
@@ -154,12 +157,15 @@ public class SeniorTeamTele extends OpMode
         // slides down
         if(gamepad2.dpad_down){
 
-            lineardown(4, 0.1);
+            lineardown(4.5, 0.3);
+
             // wrist set position
+            SWrist1.setPosition(1);
+            SWrist2.setPosition(1);
 
             // backup code if encoder malfunctions
-            // Slides1.setPower(-0.1);
-            // Slides2.setPower(-0.1);
+            // Slides1.setPower(-0.3);
+            // Slides2.setPower(-0.3);
         }
 
         // FClaw disconnects easily, may revise code
@@ -231,21 +237,32 @@ public class SeniorTeamTele extends OpMode
 
     }
     // see if actual meeting target
-    // write some code so it stays up n not slide down (if possible)
+
     private void linearup(double inch, double power)
     {
         Slides1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Slides2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Slides2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Slides1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Slides2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // ADD DEBOUNCING TO SLIDES??
+        // debounce delay 500 ms
+        
         int a = (int) ((cpi*inch) + Slides1.getCurrentPosition());
         int b = (int) ((cpi*inch) + Slides2.getCurrentPosition());
         Slides1.setTargetPosition(a);
         Slides2.setTargetPosition(b);
         Slides1.setPower(power);
         Slides2.setPower(power);
-        Slides1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Slides2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if (Slides1.getCurrentPosition() == a && Slides2.getCurrentPosition() == b)
+        {
+            Slides1.setPower(0);
+            Slides2.setPower(0);
+        }
+
         while (Slides2.isBusy() && Slides1.isBusy())
         {
             telemetry.addLine("Linear up");
@@ -256,8 +273,6 @@ public class SeniorTeamTele extends OpMode
             telemetry.update();
         }
 
-        Slides1.setPower(0);
-        Slides2.setPower(0);
     }
 
     private void lineardown(double inch, double power)
@@ -266,14 +281,22 @@ public class SeniorTeamTele extends OpMode
         Slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         Slides2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         Slides2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Slides1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Slides2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         int a = (int) (Slides1.getCurrentPosition() - (cpi*inch));
         int b = (int) (Slides2.getCurrentPosition() - (cpi*inch));
         Slides1.setTargetPosition(a);
         Slides2.setTargetPosition(b);
         Slides1.setPower(power);
         Slides2.setPower(power);
-        Slides1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Slides2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if (Slides1.getCurrentPosition() == a && Slides2.getCurrentPosition() == b)
+        {
+            Slides1.setPower(0);
+            Slides2.setPower(0);
+        }
+
         while (Slides2.isBusy() && Slides1.isBusy())
         {
             telemetry.addLine("Linear up");
@@ -284,8 +307,7 @@ public class SeniorTeamTele extends OpMode
             telemetry.update();
         }
 
-        Slides1.setPower(0);
-        Slides2.setPower(0);
+
 
     }
 
