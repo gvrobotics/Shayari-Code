@@ -44,16 +44,30 @@ public class Auton_IMU extends LinearOpMode {
         imu = hardwareMap.get(IMU.class, "imu");
 
         waitForStart();
+        
+        
+        // COMMENT AND TEST ONE AT A TIME
+        
+        // RED/BLUE OBSERVATION
+        forward(20, 0.3);
+        strafeRight(40, 0.1);
+        forward(30, 0.3);
 
-        // Move forward using IMU
-//        moveForward(targetDistance, motorPower);
-//        sleep(10);
-//        moveBackward(targetDistance, motorPower);
-//        strafeLeft(1, motorPower);
-        strafeRight(1, motorPower);
+        strafeRight(6, 0.1);
+        backward(40, 0.3); // push "sample" into parking
+        forward(40, 0.3);
+        strafeRight(12, 0.1);
+        backward(40, 0.3); // push "sample" into parking
+        forward(40, 0.3);
+        strafeRight(12, 0.1);
+        backward(40, 0.3); // push "sample" into parking
+        strafeLeft(4, 0.1);
+        backward(2, 0.3); // PARK
+        
+
     }
 
-    private void moveForward(double distance, double power) {
+    private void forward(double distance, double power) {
         // Get initial heading
         angles   = imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double initialHeading = angles.firstAngle;
@@ -115,7 +129,7 @@ public class Auton_IMU extends LinearOpMode {
         BL.setPower(0);
     }
 
-    private void moveBackward(double distance, double power) {
+    private void backward(double distance, double power) {
         // Get initial heading
         angles   = imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double initialHeading = angles.firstAngle;
