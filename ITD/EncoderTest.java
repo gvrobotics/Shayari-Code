@@ -1,4 +1,4 @@
-/ * AI GENERATED - CHECKS ENCODER DIRECTION */
+// AI GENERATED - CHECKS ENCODER DIRECTION
 
 package org.firstinspires.ftc.teamcode;
 
