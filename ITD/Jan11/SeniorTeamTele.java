@@ -14,7 +14,7 @@ public class SeniorTeamTele extends OpMode
     private double powerRY, powerRX, powerLX, powerLY, robotAngle, PowerMultiplier, lf, rb, rf, lb;
 
     // double cpi = 50; (this cpi was too short, around 2.5 inches- keeping as backup tho!)
-    double cpi = 125;
+    double cpi = 60;
 
     double cpd = 3.7;
     int inch = 0;
@@ -60,6 +60,9 @@ public class SeniorTeamTele extends OpMode
         FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        Slides1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Slides2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         FR.setPower(0);
         FL.setPower(0);
@@ -76,9 +79,9 @@ public class SeniorTeamTele extends OpMode
         Elbow1.setPosition(0.9);
         Elbow2.setPosition(0);
 
-
-        SWrist1.setPosition(1);
-        SWrist2.setPosition(1);
+        // changed
+        SWrist1.setPosition(0.95);
+        SWrist2.setPosition(0.95);
 
     }
 
@@ -119,14 +122,15 @@ public class SeniorTeamTele extends OpMode
 
 
 
-        // kills on both gamepads for slides
-        if(gamepad2.left_bumper){
+        // MAX POWER DOWN
+        if(gamepad1.left_bumper){
 
-            Slides1.setPower(0);
-            Slides2.setPower(0);
+            Slides1.setPower(0.9);
+            Slides2.setPower(0.9);
 
         }
 
+        // kill
         if (gamepad2.right_bumper)
         {
             Slides1.setPower(0);
@@ -136,11 +140,11 @@ public class SeniorTeamTele extends OpMode
         }
 
         // slides up
-        if(gamepad2.dpad_up){
+        if(gamepad2.y){
 
-            // doesn't go exactly 5 inches - try adjusting cpi
 
-            linearup(5, 0.5);
+
+            linearup(14, 0.5);
 
             // wrist set position
             SWrist1.setPosition(0.65);
@@ -155,9 +159,9 @@ public class SeniorTeamTele extends OpMode
 
         // press down once or else battery disconnects
         // slides down
-        if(gamepad2.dpad_down){
+        if(gamepad2.a){
 
-            lineardown(4.5, 0.3);
+            lineardown(14.5, 0.3);
 
             // wrist set position
             SWrist1.setPosition(1);
@@ -185,29 +189,44 @@ public class SeniorTeamTele extends OpMode
             Elbow2.setPosition(0.2);
             Wrist.setPosition(0.7);
         }
-        if(gamepad2.right_bumper){
-            Wrist.setPosition(0.9);
+
+        if(gamepad2.dpad_up){
+            linearup(21, 0.3);
         }
 
+
+        if(gamepad2.dpad_down){
+            linearup(21, 0.3);
+        }
+
+        // changed
+        if(gamepad2.right_bumper){
+            Wrist.setPosition(0.8);
+        }
+
+        // close
         if (gamepad2.right_trigger > 0.5)
         {
             FClaw.setPosition(0.3);
+
         }
 
+        // open - increased
         if (gamepad2.left_trigger > 0.5)
         {
-            FClaw.setPosition(0.7);
+            FClaw.setPosition(0.8);
         }
 
-
+        // close - changed
         if (gamepad2.x)
         {
-            SClaw.setPosition(0.69);
+            SClaw.setPosition(0.5);
         }
 
+        // open - increased
         if (gamepad2.b)
         {
-            SClaw.setPosition(0.8);
+            SClaw.setPosition(0.9);
         }
 
         telemetry.addData("FR Power: ", FR.getPower());
@@ -249,7 +268,7 @@ public class SeniorTeamTele extends OpMode
 
         // ADD DEBOUNCING TO SLIDES??
         // debounce delay 500 ms
-        
+
         int a = (int) ((cpi*inch) + Slides1.getCurrentPosition());
         int b = (int) ((cpi*inch) + Slides2.getCurrentPosition());
         Slides1.setTargetPosition(a);
