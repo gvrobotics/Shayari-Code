@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -13,9 +15,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @Autonomous
 public class Auton_IMU extends LinearOpMode {
 
-    public DcMotor FR, FL, BR, BL;
+    public DcMotor FR, FL, BR, BL, Slides1, Slides2;
+    public Servo Elbow1, Elbow2, SClaw, FClaw, SWrist1, SWrist2;
+    public Servo Wrist;
     private IMU imu;
     private Orientation angles;
+
+    // double cpi = 50; (this cpi was too short, around 2.5 inches- keeping as backup tho!)
+    double cpi = 60;
 
     // Target distance to move (in inches)
     private double targetDistance = 1;
@@ -34,36 +41,76 @@ public class Auton_IMU extends LinearOpMode {
         BR = hardwareMap.get(DcMotor.class, "BR");
         BL = hardwareMap.get(DcMotor.class, "BL");
 
+        Slides1 = hardwareMap.get(DcMotor.class, "Slides1");
+        Slides2 = hardwareMap.get(DcMotor.class, "Slides2");
+        Elbow1 = hardwareMap.get(Servo.class, "Elbow1");
+        Elbow2 = hardwareMap.get(Servo.class, "Elbow2");
+        Wrist = hardwareMap.get(Servo.class, "Wrist");
+        SClaw = hardwareMap.get(Servo.class, "SClaw");
+        FClaw = hardwareMap.get(Servo.class, "FClaw");
+        SWrist1 = hardwareMap.get(Servo.class, "SWrist1");
+        SWrist2 = hardwareMap.get(Servo.class, "SWrist2");
+
         // Set motor directions
         BR.setDirection(DcMotorSimple.Direction.REVERSE);
         BL.setDirection(DcMotorSimple.Direction.FORWARD);
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        Slides1.setDirection(DcMotor.Direction.REVERSE);
+        Slides2.setDirection(DcMotor.Direction.FORWARD);
+        SClaw.setDirection(Servo.Direction.FORWARD);
+        // set directions for FClaw, SWrist1, SWrist2
+
+        // SWrist1 and SWrist2 must be opposite directions!!
+        SWrist1.setDirection(Servo.Direction.FORWARD);
+        SWrist2.setDirection(Servo.Direction.REVERSE);
+
+        BR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        Slides1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Slides2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
         // Initialize IMU
         imu = hardwareMap.get(IMU.class, "imu");
 
         waitForStart();
-        
-        
-        // COMMENT AND TEST ONE AT A TIME
-        
-        // RED/BLUE OBSERVATION
-        forward(20, 0.3);
-        strafeRight(40, 0.1);
-        forward(30, 0.3);
 
-        strafeRight(6, 0.1);
-        backward(40, 0.3); // push "sample" into parking
-        forward(40, 0.3);
-        strafeRight(12, 0.1);
-        backward(40, 0.3); // push "sample" into parking
-        forward(40, 0.3);
-        strafeRight(12, 0.1);
-        backward(40, 0.3); // push "sample" into parking
-        strafeLeft(4, 0.1);
-        backward(2, 0.3); // PARK
-        
+
+        // COMMENT AND TEST ONE AT A TIME
+
+        // RED/BLUE OBSERVATION
+//        backward(20, 0.3);
+//        linearup(14.5, 0.5);
+//        sleep(5000);
+
+        // SERVOS NOT WORKING?
+//        SWrist1.setPosition(0.65);
+//        SWrist2.setPosition(0.65);
+//        SClaw.setPosition(0.9);
+
+//        lineardown(14.5, 0.5);
+
+
+//        strafeRight(20, 0.3);
+        strafeRight(5, 0.3);
+//        backward(15, 0.3);
+//
+//        strafeRight(6, 0.3);
+//        backward(40, 0.3); // push "sample" into parking
+//        forward(40, 0.3);
+//        strafeRight(12, 0.3);
+//        backward(40, 0.3); // push "sample" into parking
+//        forward(40, 0.3);
+//        strafeRight(12, 0.3);
+//        backward(40, 0.3); // push "sample" into parking
+//        strafeLeft(4, 0.3);
+//        backward(2, 0.3); // PARK
+
 
     }
 
@@ -261,10 +308,11 @@ public class Auton_IMU extends LinearOpMode {
         double initialHeading = angles.firstAngle;
 
         // sets desired power for motors
-        BR.setPower(power);
+        BR.setPower(-power);
         BL.setPower(-power);
-        FR.setPower(-power);
+        FR.setPower(power);
         FL.setPower(power);
+
 
         // Get the current time in milliseconds
         long startTime = System.currentTimeMillis();
@@ -288,9 +336,9 @@ public class Auton_IMU extends LinearOpMode {
             // FR.setPower(rightPower);
             // FL.setPower(rightPower);
             // For now, keep motor powers constant
-            BR.setPower(power);
+            BR.setPower(-power);
             BL.setPower(-power);
-            FR.setPower(-power);
+            FR.setPower(power);
             FL.setPower(power);
 
             // Calculate elapsed time
@@ -315,6 +363,80 @@ public class Auton_IMU extends LinearOpMode {
         FR.setPower(0);
         FL.setPower(0);
     }
+
+    private void linearup(double inch, double power)
+    {
+        Slides1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Slides2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Slides2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Slides1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Slides2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // ADD DEBOUNCING TO SLIDES??
+        // debounce delay 500 ms
+
+        int a = (int) ((cpi*inch) + Slides1.getCurrentPosition());
+        int b = (int) ((cpi*inch) + Slides2.getCurrentPosition());
+        Slides1.setTargetPosition(a);
+        Slides2.setTargetPosition(b);
+        Slides1.setPower(power);
+        Slides2.setPower(power);
+
+        if (Slides1.getCurrentPosition() == a && Slides2.getCurrentPosition() == b)
+        {
+            Slides1.setPower(0);
+            Slides2.setPower(0);
+        }
+
+        while (Slides2.isBusy() && Slides1.isBusy())
+        {
+            telemetry.addLine("Linear up");
+            telemetry.addData("Target Slides1", "%7d", a);
+            telemetry.addData("Target Slides2", "%7d", b);
+            telemetry.addData("Actual Slides1", "%7d", Slides1.getCurrentPosition());
+            telemetry.addData("Actual Slides2", "%7d", Slides2.getCurrentPosition());
+            telemetry.update();
+        }
+
+    }
+
+    private void lineardown(double inch, double power)
+    {
+        Slides1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Slides1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Slides2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Slides2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Slides1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Slides2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        int a = (int) (Slides1.getCurrentPosition() - (cpi*inch));
+        int b = (int) (Slides2.getCurrentPosition() - (cpi*inch));
+        Slides1.setTargetPosition(a);
+        Slides2.setTargetPosition(b);
+        Slides1.setPower(power);
+        Slides2.setPower(power);
+
+        if (Slides1.getCurrentPosition() == a && Slides2.getCurrentPosition() == b)
+        {
+            Slides1.setPower(0);
+            Slides2.setPower(0);
+        }
+
+        while (Slides2.isBusy() && Slides1.isBusy())
+        {
+            telemetry.addLine("Linear up");
+            telemetry.addData("Target Slides1", "%7d", a);
+            telemetry.addData("Target Slides2", "%7d", b);
+            telemetry.addData("Actual Slides1", "%7d", Slides1.getCurrentPosition());
+            telemetry.addData("Actual Slides2", "%7d", Slides2.getCurrentPosition());
+            telemetry.update();
+        }
+
+
+
+    }
+
 
     // FIX LEFT AND RIGHT
 
