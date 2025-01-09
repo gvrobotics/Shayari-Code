@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+// ORGANIZE
+
 @TeleOp
 public class SeniorTeamTele extends OpMode
 {
@@ -20,7 +22,6 @@ public class SeniorTeamTele extends OpMode
     int inch = 0;
 
 
-    // Test SWrist1 + SWrist2 on SWristTest
     @Override
     public void init()
     {
@@ -49,7 +50,7 @@ public class SeniorTeamTele extends OpMode
         Slides1.setDirection(DcMotor.Direction.REVERSE);
         Slides2.setDirection(DcMotor.Direction.FORWARD);
         SClaw.setDirection(Servo.Direction.FORWARD);
-        // set directions for FClaw, SWrist1, SWrist2
+
 
         // SWrist1 and SWrist2 must be opposite directions!!
         SWrist1.setDirection(Servo.Direction.FORWARD);
@@ -63,6 +64,10 @@ public class SeniorTeamTele extends OpMode
         Slides1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Slides2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         FR.setPower(0);
         FL.setPower(0);
@@ -71,15 +76,17 @@ public class SeniorTeamTele extends OpMode
 
         Slides1.setPower(0);
         Slides2.setPower(0);
-        Wrist.setPosition(0.3);
-        FClaw.setPosition(0.7);
+        Wrist.setPosition(0.2);
 
-        // SClaw works with 0.69/0.7
-        SClaw.setPosition(0.69);
+        // start FClaw open
+        FClaw.setPosition(0.9);
+
+        // start SClaw closed
+        SClaw.setPosition(0.5);
         Elbow1.setPosition(0.9);
         Elbow2.setPosition(0);
 
-        // changed
+
         SWrist1.setPosition(0.95);
         SWrist2.setPosition(0.95);
 
@@ -121,17 +128,8 @@ public class SeniorTeamTele extends OpMode
         BL.setPower(lb);
 
 
-
-        // MAX POWER DOWN
-        if(gamepad1.left_bumper){
-
-            Slides1.setPower(0.9);
-            Slides2.setPower(0.9);
-
-        }
-
         // kill
-        if (gamepad2.right_bumper)
+        if (gamepad2.left_bumper)
         {
             Slides1.setPower(0);
             Slides2.setPower(0);
@@ -142,9 +140,7 @@ public class SeniorTeamTele extends OpMode
         // slides up
         if(gamepad2.y){
 
-
-
-            linearup(14, 0.5);
+            linearup(12.5, 0.5);
 
             // wrist set position
             SWrist1.setPosition(0.65);
@@ -158,14 +154,15 @@ public class SeniorTeamTele extends OpMode
 
 
         // press down once or else battery disconnects
+        // will add debounce
         // slides down
         if(gamepad2.a){
 
-            lineardown(14.5, 0.3);
+            lineardown(12.5, 0.3);
 
             // wrist set position
-            SWrist1.setPosition(1);
-            SWrist2.setPosition(1);
+            SWrist1.setPosition(0.95);
+            SWrist2.setPosition(0.95);
 
             // backup code if encoder malfunctions
             // Slides1.setPower(-0.3);
@@ -191,17 +188,24 @@ public class SeniorTeamTele extends OpMode
         }
 
         if(gamepad2.dpad_up){
-            linearup(21, 0.3);
+            linearup(29, 0.3);
         }
 
 
         if(gamepad2.dpad_down){
-            linearup(21, 0.3);
+            lineardown(29, 0.3);
+        }
+
+        // max power down
+        if (gamepad1.left_bumper)
+        {
+            Slides1.setPower(-0.9);
+            Slides2.setPower(-0.9);
         }
 
         // changed
         if(gamepad2.right_bumper){
-            Wrist.setPosition(0.8);
+            Wrist.setPosition(0.75);
         }
 
         // close
@@ -214,7 +218,7 @@ public class SeniorTeamTele extends OpMode
         // open - increased
         if (gamepad2.left_trigger > 0.5)
         {
-            FClaw.setPosition(0.8);
+            FClaw.setPosition(0.9);
         }
 
         // close - changed
