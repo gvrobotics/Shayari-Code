@@ -12,6 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+// TEST DURING MEETING
+
 @Autonomous
 public class Auton_IMU extends LinearOpMode {
 
@@ -74,7 +76,6 @@ public class Auton_IMU extends LinearOpMode {
         Slides1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         Slides2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
         // Initialize IMU
         imu = hardwareMap.get(IMU.class, "imu");
 
@@ -84,20 +85,32 @@ public class Auton_IMU extends LinearOpMode {
         // COMMENT AND TEST ONE AT A TIME
 
         // RED/BLUE OBSERVATION
-//        backward(20, 0.3);
-//        linearup(14.5, 0.5);
-//        sleep(5000);
+        SClaw.setPosition(0.5);
+        linearup(12.5, 0.5);
+        SWrist1.setPosition(0.65);
+        SWrist2.setPosition(0.65);
+        sleep(1000);
+        backward(19.5, 0.4);
+        sleep(1000);
+        SClaw.setPosition(0.9);
+        sleep(1000);
+        // set back
+        SWrist1.setPosition(0.95);
+        SWrist2.setPosition(0.95);
+        forward(5, 0.4);
+        sleep(1000);
+        lineardown(12.5, 0.5);
+        sleep(1000);
+        strafeLeft(20, 0.6);
+        sleep(1000);
+        spinRight(21.5, 0.5); // distance 40, power 0.3 is magical
+        backward(7.5, 0.3);
+        SClaw.setPosition(0.5);
 
-        // SERVOS NOT WORKING?
-//        SWrist1.setPosition(0.65);
-//        SWrist2.setPosition(0.65);
-//        SClaw.setPosition(0.9);
 
-//        lineardown(14.5, 0.5);
-
-
+        // THIS CODE HAS NOT BEEN TESTED
 //        strafeRight(20, 0.3);
-        strafeRight(5, 0.3);
+//        strafeRight(5, 0.3);
 //        backward(15, 0.3);
 //
 //        strafeRight(6, 0.3);
@@ -214,6 +227,68 @@ public class Auton_IMU extends LinearOpMode {
             BL.setPower(-power);
             FR.setPower(-power);
             FL.setPower(-power);
+
+            // Calculate elapsed time
+            double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0;
+
+            // Estimate distance traveled
+            double estimatedDistance = elapsedTime * robotSpeed;
+
+            // Display telemetry
+            telemetry.addData("Heading", currentHeading);
+            telemetry.addData("Motor Power", power);
+            telemetry.addData("Time Elapsed", elapsedTime);
+            telemetry.addData("Estimated Distance", estimatedDistance);
+            telemetry.update();
+
+            sleep(10); // Adjust sleep time for telemetry updates
+        }
+
+        // Stop motors
+        FR.setPower(0);
+        FL.setPower(0);
+        BR.setPower(0);
+        BL.setPower(0);
+    }
+
+    private void spinRight(double distance, double power) {
+        // Get initial heading
+        angles   = imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double initialHeading = angles.firstAngle;
+
+        // Spin
+        FR.setPower(-power);
+        FL.setPower(power);
+        BR.setPower(-power);
+        BL.setPower(power);
+
+        // Get the current time in milliseconds
+        long startTime = System.currentTimeMillis();
+
+        // Move for estimated time
+        while ((System.currentTimeMillis() - startTime) < (distance / robotSpeed) * 1000) {
+            // Get current heading
+            angles   = imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            double currentHeading = angles.firstAngle;
+
+            // Calculate heading error
+            double headingError = currentHeading - initialHeading;
+
+            // Adjust motor powers based on heading error (optional)
+            // double leftPower = power - headingError * kP;
+            // double rightPower = power + headingError * kP;
+
+            // Set motor powers (with optional heading correction)
+            // BR.setPower(leftPower);
+            // BL.setPower(leftPower);
+            // FR.setPower(rightPower);
+            // FL.setPower(rightPower);
+
+            // For now, keep motor powers constant
+            FR.setPower(-power);
+            FL.setPower(power);
+            BR.setPower(-power);
+            BL.setPower(power);
 
             // Calculate elapsed time
             double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0;
