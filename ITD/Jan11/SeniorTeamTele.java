@@ -196,11 +196,22 @@ public class SeniorTeamTele extends OpMode
             lineardown(29, 0.3);
         }
 
-        // max power down
+        // max power down - TEST!!
         if (gamepad1.left_bumper)
         {
-            Slides1.setPower(-0.9);
-            Slides2.setPower(-0.9);
+            Slides1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            Slides2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            Slides1.setPower(0.55);
+            Slides2.setPower(-0.55);
+        }
+
+        // FAILSAFE BUTTON - TEST!!
+        if (gamepad1.b)
+        {
+            Slides1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            Slides2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            Slides1.setPower(0.3);
+            Slides2.setPower(-0.3);
         }
 
         // changed
