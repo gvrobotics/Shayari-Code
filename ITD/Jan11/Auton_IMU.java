@@ -84,13 +84,13 @@ public class Auton_IMU extends LinearOpMode {
 
         // COMMENT AND TEST ONE AT A TIME
 
-        // RED/BLUE OBSERVATION
+        // BLUE OBSERVATION
         SClaw.setPosition(0.5);
         linearup(11.5, 0.5);
         SWrist1.setPosition(0.65);
         SWrist2.setPosition(0.65);
         sleep(500);
-        backward(19.5, 0.4);
+        backward(19, 0.4);
         sleep(500);
         SClaw.setPosition(0.9);
         sleep(500);
@@ -101,12 +101,21 @@ public class Auton_IMU extends LinearOpMode {
         sleep(500);
         lineardown(11.5, 0.5);
         sleep(200);
-        strafeLeft(20, 0.6);
+        strafeLeft(17, 0.7);
         sleep(500);
-        spinRight(40, 0.3); // distance 40, power 0.3 is magical
-        backward(7.5, 0.3);
+        spinRight(40, 0.3);// distance 40, power 0.3 is magical
+        SWrist1.setPosition(0.95);
+        SWrist2.setPosition(0.95);
+        backward(11, 0.3);
+        sleep(500);
         SClaw.setPosition(0.5);
-        backward(5, 0.4);
+        sleep(200);
+        linearup(11.5, 0.5);
+        // wrist set position
+        SWrist1.setPosition(0.65);
+        SWrist2.setPosition(0.65);
+        sleep(1000);
+
 //        SClaw.setPosition(0.9);
 
 
